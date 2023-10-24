@@ -1,5 +1,5 @@
 /*
- * Contributors:
+ * Contributors: Ian Dennis
  * Last Modified: Oct. 24th, 2023
  * 
  * Purpose: Script monitors the hands of the player and looks for
