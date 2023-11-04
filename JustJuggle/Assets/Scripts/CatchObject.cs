@@ -14,10 +14,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-enum HandFlag {LEFT, RIGHT};
 
 public class CatchObject : MonoBehaviour {
 
+    // constants
+    public enum HandFlag{LEFT, RIGHT};
+
+    // public variables
     public float objectDownwardVelocity;
     public GameObject jugglingHand;
     public GameObject jugglingObject;
