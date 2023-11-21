@@ -3,7 +3,9 @@
  * Last Modified: Nov. 21, 2023
  * 
  * Purpose: This script fetches the information from a falling object and moves
- * the juggler's hands to the correct position to catch the object.
+ * the juggler's hands to the correct position to catch the object. When
+ * appropriate, the Catch function from this script should be called by the
+ * game.
  * 
  * Binds With:  Juggling Objects
  * Modifies:    Juggler's Hands (Position)
@@ -26,7 +28,7 @@ public class CatchObject : MonoBehaviour {
     public Vector3 handPosition;
     public Vector3 objectPosition; 
     
-    void Start() {
+    public void Catch() {
 
         // fetch the nearest juggling object
         nearestObject = FindNearestObject();
