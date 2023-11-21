@@ -3,7 +3,7 @@
  * Last Modified: Nov. 2, 2023
  * 
  * Purpose: This script fetches the information from a falling object and moves
- * the juggler's hands to the right position to catch the object.
+ * the juggler's hands to the correct position to catch the object.
  * 
  * Binds With:  Juggling Objects
  * Modifies:    Juggler's Hands (Position)
@@ -14,16 +14,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum HandFlag{LEFT, RIGHT};
 
 public class CatchObject : MonoBehaviour {
-
-    // constants
-    public enum HandFlag{LEFT, RIGHT};
 
     // public variables
     public float objectDownwardVelocity;
     public GameObject jugglingHand;
     public GameObject jugglingObject;
+    public GameObject nearestObject;
     public HandFlag handFlag;
     public Vector3 handPosition;
     public Vector3 objectPosition; 
@@ -31,26 +30,29 @@ public class CatchObject : MonoBehaviour {
     void Start() {
 
         // fetch the nearest juggling object
+        nearestObject = FindNearestObject();
 
         // fetch the positional data from the juggling object
-        handFlag = jugglingObject.handFlag;
+        // handFlag = jugglingObject.handFlag;
         objectPosition = jugglingObject.transform.position;
-        objectDownwardVelocity = jugglingObject.Rigidbody.velocity.z; // how fast the object is traveling downward
+        // objectDownwardVelocity = jugglingObject.Rigidbody.velocity.z; // how fast the object is traveling downward
 
         // determine which hand needs to be moved – based on the hand flag that an object has
-        if(handFlag == LEFT) {
+        if(handFlag == HandFlag.LEFT) {
             
-            jugglingHand = GameObject.Find("LeftHand");
-            
+            jugglingHand = GameObject.Find("LeftHand");  
         }
-        else if(handFlag == RIGHT) {
+        else if(handFlag == HandFlag.RIGHT) {
 
-            jugglingHand = GameObject.Find("RightHand");
-            
+            jugglingHand = GameObject.Find("RightHand");  
         }
 
         // fetch the positional data of the hand
         handPosition = jugglingHand.transform.position;
+    }
+
+    void FixedUpdate() {
+
 
     }
 
@@ -71,7 +73,27 @@ public class CatchObject : MonoBehaviour {
         // move the hand to the landing spot over the time until the intercept
         jugglingHand.transform.position = 
                     Vector3.Lerp(handPosition, landingSpot, timeUntilIntercept);
-
     }
 
+    GameObject FindNearestObject() {
+
+        float distance = Mathf.Infinity; // distance used for comparisons
+        GameObject nearestObject = null; // the nearest juggling object to the player
+        GameObject[] jugglingObjects; // the list of all juggling objects
+        Vector3 position = transform.position; // get the position of the hand
+
+        jugglingObjects = GameObject.FindGameObjectsWithTag("JugglingObject");
+
+        foreach(GameObject gameObject in jugglingObjects) {
+
+            Vector3 delta = gameObject.transform.position - position;
+            float currentDistance = delta.sqrMagnitude;
+            if (currentDistance < distance) {
+
+                nearestObject = gameObject;
+                distance = currentDistance;
+            }
+        }
+        return nearestObject;
+    }
 }
