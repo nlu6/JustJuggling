@@ -1,6 +1,6 @@
 /*
  * Contributors: Nathan Underwood
- * Last Modified: Nov. 2, 2023
+ * Last Modified: Nov. 21, 2023
  * 
  * Purpose: This script fetches the information from a falling object and moves
  * the juggler's hands to the correct position to catch the object.
@@ -18,7 +18,6 @@ public enum HandFlag{LEFT, RIGHT};
 
 public class CatchObject : MonoBehaviour {
 
-    // public variables
     public float objectDownwardVelocity;
     public GameObject jugglingHand;
     public GameObject jugglingObject;
@@ -49,14 +48,10 @@ public class CatchObject : MonoBehaviour {
 
         // fetch the positional data of the hand
         handPosition = jugglingHand.transform.position;
+
+        // intercept the juggling object
+        InterceptObject();
     }
-
-    void FixedUpdate() {
-
-
-    }
-
-    // intercept the falling object once appropriate
 
     void InterceptObject() {
 
