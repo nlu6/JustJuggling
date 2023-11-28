@@ -15,7 +15,7 @@ public class SongManager : MonoBehaviour
     public AudioSource musicSource;
     public TextAsset timestampFile;
     
-    // ball prefab for testing
+    // Ball prefab for testing
     //public GameObject ballPrefab;
     
     [Header("Dynamic")]
@@ -104,6 +104,11 @@ public class SongManager : MonoBehaviour
         }
     }
     
+    public bool SongPlaying
+    {
+        get{ return songPlaying; }
+    }
+    
     public float TStmpDiff
     {
         get{ return nextTStmp - songPosition; }
@@ -111,15 +116,21 @@ public class SongManager : MonoBehaviour
     
     public void PlaySong()
     {
-        dspSongTime = (float) AudioSettings.dspTime;
-        musicSource.Play();
-        songPlaying = true;
+        if (!songPlaying)
+        {
+            dspSongTime = (float) AudioSettings.dspTime;
+            musicSource.Play();
+            songPlaying = true;
+        }
     }
     
     public void StopSong()
     {
-        musicSource.Stop();
-        songPlaying = false;
+        if (songPlaying)
+        {
+            musicSource.Stop();
+            songPlaying = false;
+        }
     }
     
     private void ResetSongVars()
