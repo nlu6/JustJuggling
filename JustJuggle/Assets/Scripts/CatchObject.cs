@@ -24,21 +24,22 @@ public class CatchObject : MonoBehaviour {
     public GameObject jugglingHand;
     public GameObject jugglingObject;
     public GameObject nearestObject;
+    public GameObject player;  
     public HandFlag handFlag;
     public Vector3 handPosition;
     public Vector3 objectPosition; 
     
     public void Catch() {
 
+        // fetch a reference to the player
+        player = GameObject.Find("Player");  
+
         // fetch the nearest juggling object
         nearestObject = FindNearestObject();
 
-        // fetch the positional data from the juggling object
-        // handFlag = jugglingObject.handFlag;
-        objectPosition = jugglingObject.transform.position;
-        // objectDownwardVelocity = jugglingObject.Rigidbody.velocity.z; // how fast the object is traveling downward
+        // determine which hand needs to be moved – based on the hand flag that the nearest juggling object has
+        // handFlag = nearestObject.handFlag;
 
-        // determine which hand needs to be moved – based on the hand flag that an object has
         if(handFlag == HandFlag.LEFT) {
             
             jugglingHand = GameObject.Find("LeftHand");  
@@ -47,6 +48,10 @@ public class CatchObject : MonoBehaviour {
 
             jugglingHand = GameObject.Find("RightHand");  
         }
+
+        // fetch the positional data from the juggling object
+        objectPosition = nearestObject.transform.position;
+        // objectDownwardVelocity = nearestObject.Rigidbody.velocity.z; // how fast the object is traveling downward
 
         // fetch the positional data of the hand
         handPosition = jugglingHand.transform.position;
@@ -77,10 +82,11 @@ public class CatchObject : MonoBehaviour {
         float distance = Mathf.Infinity; // distance used for comparisons
         GameObject nearestObject = null; // the nearest juggling object to the player
         GameObject[] jugglingObjects; // the list of all juggling objects
-        Vector3 position = transform.position; // get the position of the hand
+        Vector3 position = player.transform.position; // get the position of the player
 
         jugglingObjects = GameObject.FindGameObjectsWithTag("JugglingObject");
 
+        // determine which juggling object is closest to the player
         foreach(GameObject gameObject in jugglingObjects) {
 
             Vector3 delta = gameObject.transform.position - position;
