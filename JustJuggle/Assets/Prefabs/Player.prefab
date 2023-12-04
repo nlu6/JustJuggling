@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 6673337214790003553}
   - component: {fileID: 4616338506098112853}
   - component: {fileID: 966753379513848636}
-  m_Layer: 0
+  - component: {fileID: 2435419914946771251}
+  m_Layer: 9
   m_Name: RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,6 +106,26 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2435419914946771251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709102627317544587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d732158f36528d246ad0b9814f106428, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHand: {fileID: 0}
+  jugglingObjects: []
+  bonusObject: {fileID: 0}
+  maxCatchDistance: 0
+  interceptHeight: 3.5
+  leftHandX: 1
+  rightHandX: -1
+  xDeviation: 0.25
 --- !u!1 &1254447234387949257
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,7 +138,7 @@ GameObject:
   - component: {fileID: 7371138475468616989}
   - component: {fileID: 198994436726050982}
   - component: {fileID: 8358481333823861891}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,7 +240,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7343767314568669284}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +276,7 @@ GameObject:
   - component: {fileID: 1547459531448623982}
   - component: {fileID: 1902148514053599241}
   - component: {fileID: 208288390175554766}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -362,7 +383,7 @@ GameObject:
   - component: {fileID: 2046018361169739820}
   - component: {fileID: 2313041954965018369}
   - component: {fileID: 1714413922134905557}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -469,7 +490,7 @@ GameObject:
   - component: {fileID: 4907527306365542153}
   - component: {fileID: 1213812836076922789}
   - component: {fileID: 8825738978454409286}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -576,7 +597,7 @@ GameObject:
   - component: {fileID: 4200232549095822933}
   - component: {fileID: 651492451742758188}
   - component: {fileID: 3752039643881198980}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Torso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -680,7 +701,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 862687266062403562}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -719,7 +740,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2143077649053582513}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -755,7 +776,7 @@ GameObject:
   - component: {fileID: 4725491460663937977}
   - component: {fileID: 3396818727482290781}
   - component: {fileID: 5946223555231529723}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: UpperArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -862,7 +883,7 @@ GameObject:
   - component: {fileID: 8378572990860094838}
   - component: {fileID: 8122147386715799601}
   - component: {fileID: 2867205297174715348}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -969,7 +990,7 @@ GameObject:
   - component: {fileID: 4021493748917915964}
   - component: {fileID: 3734447729278004804}
   - component: {fileID: 3592311048310585835}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: UpperArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1076,7 +1097,8 @@ GameObject:
   - component: {fileID: 2688071067321475303}
   - component: {fileID: 351614322821449868}
   - component: {fileID: 6026457370459205895}
-  m_Layer: 0
+  - component: {fileID: 4063379487405485739}
+  m_Layer: 9
   m_Name: LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1169,3 +1191,23 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4063379487405485739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8780049498801848317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d732158f36528d246ad0b9814f106428, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHand: {fileID: 0}
+  jugglingObjects: []
+  bonusObject: {fileID: 0}
+  maxCatchDistance: 0
+  interceptHeight: 3.5
+  leftHandX: 1
+  rightHandX: -1
+  xDeviation: 0.25

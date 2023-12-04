@@ -25,6 +25,9 @@ public class SongManager : MonoBehaviour
     public float dspSongTime;
     public float beatsPerLoop;
     public int completedLoops;
+
+    [Header("Static")]
+    public static SongManager Script;
     
     [Header("Juggle Timestamp Information")]
     public List<float> juggleTimes;
@@ -34,6 +37,7 @@ public class SongManager : MonoBehaviour
     private float nextTStmp;
     private float songBpmAct;
     private int nextTStmpIndex;
+    private int lastAssignedIndex; // used to assign timestamps to balls
     private bool jugglingEnd;
     private bool songPlaying;
     
@@ -47,6 +51,8 @@ public class SongManager : MonoBehaviour
         completedLoops = 0;
         
         numTStmps = 0;
+
+        lastAssignedIndex = 0;
         
         if (timestampFile != null)
         {
@@ -60,6 +66,8 @@ public class SongManager : MonoBehaviour
         ResetJuggVars();
         
         Invoke("PlaySong", songStartDelay);
+
+        Script = this;
     }
     
     void FixedUpdate()
@@ -198,5 +206,15 @@ public class SongManager : MonoBehaviour
                 curTimestampStr += c;
             }
         }
+    }
+
+    // Returns next timestamp, as a float, that a juggling object should land in the hand
+    public static double INTERCEPT_TIME()
+    {
+        double timeUntilIntercept = Script.juggleTimes[Script.lastAssignedIndex] - Script.songPosition;
+
+        Script.lastAssignedIndex++;
+
+        return timeUntilIntercept;
     }
 }

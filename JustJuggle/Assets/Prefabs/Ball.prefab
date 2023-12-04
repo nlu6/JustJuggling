@@ -216,4 +216,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b660a694b9155f408d4c45a3095c99f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPrefab: {fileID: 7128932109819231168}
+  jugglingObject: {fileID: 7128932109819231168}
