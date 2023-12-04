@@ -23,6 +23,7 @@ using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Numerics;
 
 public class HandleCatch : MonoBehaviour
 {
@@ -79,7 +80,7 @@ public class HandleCatch : MonoBehaviour
             // check for collision, also check if object has been thrown
             
             if( jugglingObject.GetComponent<Collider>().bounds.Intersects(playerHand.GetComponent<Collider>().bounds)
-                && jugglingObject.GetComponent<Rigidbody>().velocity != Vector3.zero )
+                && jugglingObject.GetComponent<Rigidbody>().velocity != UnityEngine.Vector3.zero )
             {
                 // if collision with juggling object check for player input
                 // this ensure inputs will first go to the juggling object
@@ -89,8 +90,7 @@ public class HandleCatch : MonoBehaviour
                     playerInput = Input.inputString;
 
                     // get input juggling oject is expecting
-                    // TODO: get input from juggling object script
-                    expectedInput = "w";
+                    expectedInput = jugglingObject.GetComponent<NextMove>().expectedInput;
 
                     // check if player input matches expected input
                     if( playerInput == expectedInput )
@@ -99,26 +99,26 @@ public class HandleCatch : MonoBehaviour
                         objectThrown = true;
 
                         // get position of this hand
-                        Vector3 handPos = playerHand.transform.position;
+                        UnityEngine.Vector3 handPos = playerHand.transform.position;
 
                         // get position of juggling object
-                        Vector3 objectPos = jugglingObject.transform.position;
+                        UnityEngine.Vector3 objectPos = jugglingObject.transform.position;
 
                         // update player score based on position of objects
                         // function: updateScore
                         UpdateScore( -1, handPos, objectPos );
 
-                        // reposistion juggling object to above hand
-                        jugglingObject.transform.position = new Vector3(handPos.x, handPos.y + 1, handPos.z);
+                        // reposistion juggling object to above hand (0.45 is ball radius plus hand radius)
+                        jugglingObject.transform.position = new UnityEngine.Vector3(handPos.x, (float)(handPos.y + 0.45), handPos.z);
 
                         // reset juggling object velocity
-                        jugglingObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                        jugglingObject.GetComponent<Rigidbody>().velocity = UnityEngine.Vector3.zero;
 
                         // reset juggling object angular velocity
-                        jugglingObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+                        jugglingObject.GetComponent<Rigidbody>().angularVelocity = UnityEngine.Vector3.zero;
 
-                        // call throw object script
-                        ThrowObject(jugglingObject);
+                        // call for new input to throw object
+                        jugglingObject.GetComponent<NextMove>().UpdateInput();
                     }
                     // otherwise player input does not match expected input
                     else
@@ -175,7 +175,7 @@ public class HandleCatch : MonoBehaviour
     }
 
     // Update player score
-    void UpdateScore( int framesSinceBonus = -1, Vector3 handPos = default, Vector3 objectPos = default )
+    void UpdateScore( int framesSinceBonus = -1, UnityEngine.Vector3 handPos = default, UnityEngine.Vector3 objectPos = default )
     {
         // if all values are default values, or if all values are not default values log warning, skip score update
         if( (framesSinceBonus == -1 && handPos == default && objectPos == default) 
@@ -190,7 +190,7 @@ public class HandleCatch : MonoBehaviour
         else if( framesSinceBonus == -1 )
         {
             // get distance between hand and object
-            int distance = (int)Vector3.Distance(handPos, objectPos);
+            int distance = (int)UnityEngine.Vector3.Distance(handPos, objectPos);
             int scoreMult = maxCatchDistance - distance;
 
             JustJugglingMain.OBJ_HIT(scoreMult);
@@ -230,58 +230,6 @@ public class HandleCatch : MonoBehaviour
         {
             return null;
         }
-    }
-
-
-    // Throw object
-    void ThrowObject( GameObject jugglingObject )
-    {
-        // acquire data
-        // ============
-        // update object expected input
-        Next_Move.UPDATE_INPUT();
-
-        // get position of juggling object
-        Vector3 objectPos = jugglingObject.transform.position;
-        double objectHeight = objectPos.y;
-        double objectX = objectPos.x;
-
-        // get time object needs to land in hand next from music sync script
-        double timeUntilIntercept = SongManager.INTERCEPT_TIME();
-
-        // get gravity from juggling object
-        double gravity = jugglingObject.GetComponent<Rigidbody>().useGravity ? Physics.gravity.y : 0;
-
-        if( gravity == 0 )
-        {
-            Debug.LogWarning("Gravity is zero, object will not be thrown");
-        }
-
-        // randomly decide left or right hand (-1 or 1)
-        int hand = UnityEngine.Random.Range(-1, 1);
-
-        // get x position of hand (hand location +/- deviation)
-        // this will make the look of the juggling more natural since the hands will not always be in the same place
-        double x = hand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation);
-
-        // calculate trajectory (basic physics projectile motion)
-        // https://www.omnicalculator.com/physics/projectile-motion
-        // ====================
-        // get velocity in x direction
-        double velocityX = (x - objectX) / timeUntilIntercept;
-
-        // get velocity in y direction
-        double velocityY = 0.5 * gravity / timeUntilIntercept - (interceptHeight - objectHeight) / timeUntilIntercept;
-
-        // NOTE: if object is not ball add rotations here
-        
-        // throw object
-        // ============
-        // get rigidbody of juggling object
-        Rigidbody rb = jugglingObject.GetComponent<Rigidbody>();
-
-        // set velocity of juggling object
-        rb.velocity = new Vector3((float)velocityX, (float)velocityY, 0);
     }
 
     // End game

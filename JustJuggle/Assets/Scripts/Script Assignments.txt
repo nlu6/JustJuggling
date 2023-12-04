@@ -1,0 +1,17 @@
+This is here so every script location is tracked.
+That way we don't have to refigure it out if things get screwed up
+
+--> Ordered Alphabetically
+
+AlignHand.cs 			-> 	LeftHand and RightHand in Player
+CatchObject.cs			->		No Clue
+DropMonitor.cs 		-> 	Platform, Rug, and Floor in Stage
+GameOver.cs 			-> 	Canvas in GameOver_Screen scene
+HandleCatch.cs 		-> 	LeftHand and RightHand in Player
+JustJuggleMain.cs 	->	 	Main Camera in Game_Screen scene
+NexMove.cs 				-> 	Ball Prefab or any other juggling object
+Settings.cs 			-> 	Canvas in Settings_Screen scene
+SongManager.cs 		-> 	Main Camera in Game_Screen scene
+StartScreen.cs 		-> 	Main Camera in Start_Screen scene
+Startup.cs 				->		Main Camera in Game_Screen scene
+zzTemplateScript.cs 	->		No assignment

@@ -213,7 +213,7 @@ public class SongManager : MonoBehaviour
     {
         double timeUntilIntercept = Script.juggleTimes[Script.lastAssignedIndex] - Script.songPosition;
 
-        Script.lastAssignedIndex++;
+        Script.lastAssignedIndex = (Script.lastAssignedIndex + 1) % Script.numTStmps;
 
         return timeUntilIntercept;
     }

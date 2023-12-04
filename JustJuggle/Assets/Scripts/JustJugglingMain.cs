@@ -33,9 +33,6 @@ public class JustJugglingMain : MonoBehaviour
     void Awake()
     {
         Script = this;
-
-        // call start up
-        Start_Up.SPAWN_OBJECTS();
     }
     
     void Start()
@@ -44,6 +41,12 @@ public class JustJugglingMain : MonoBehaviour
         
         playerScore = 0;
         objJuggled = 0;
+
+        // wait 5 seconds before calling start up
+        Invoke("StartUp", 5);
+        
+        // call start up
+        StartUp.SPAWN_OBJECTS();
     }
     
     // Score multiplier is based in here since it changes
@@ -63,10 +66,7 @@ public class JustJugglingMain : MonoBehaviour
         // Update score
         PlayerPrefs.SetInt("Score", Script.playerScore);
 
-        // TODO: fade to end screen
-        SceneManager.LoadScene("EndScene");
-
-        // unload main scene
-        SceneManager.UnloadSceneAsync("MainScene");
+        // TODO: fade to end screen instead of jumping
+        SceneManager.LoadScene("GameOver_Screen");
     }
 }

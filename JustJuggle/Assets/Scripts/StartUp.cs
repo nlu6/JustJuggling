@@ -12,17 +12,22 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Start_Up : MonoBehaviour
+public class StartUp : MonoBehaviour
 {
     // script
-    public static Start_Up Script;
+    public static StartUp Script;
 
     [Header("Juggling Objects")]
     [Tooltip("The object that will be juggled")]
     public GameObject jugglingObject;
-    [Tooltip("One of the crowd members")]
+    [Tooltip("Player Left Hand")]
+    public GameObject leftHand;
+    [Tooltip("Player Right Hand")]
+    public GameObject rightHand;
+    [Tooltip("The number of objects that will be juggled")]    
     public int numObjects;
     [Tooltip("Array of materials that will be applied to the juggling objects")]
     public Material[] materials;
@@ -31,7 +36,7 @@ public class Start_Up : MonoBehaviour
     [Header("Crowd")]
     [Tooltip("The number of crowd members")]
     public GameObject crowd;
-    [Tooltip("The number of objects that will be juggled")]
+    [Tooltip("One of the crowd members")]
     public int crowdSize;
     [Tooltip("Array of materials that will be applied to the crowd")]
     public Material[] crowdMaterials;
@@ -40,21 +45,24 @@ public class Start_Up : MonoBehaviour
     {
         Script = this;
     }
+
     public static void SPAWN_OBJECTS()
     {
-        // spawn objects
-        Script.SpawnJugglingObjects();
-
         // spawn crowd
         Script.SpawnCrowd();
+
+        // spawn objects
+        Script.SpawnJugglingObjects();
     }
 
     void SpawnJugglingObjects()
     {
+        int hand = -1;
         for (int i = 0; i < numObjects; i++)
         {
-            // spawn object
-            Instantiate(jugglingObject, new Vector3(0, 0, 0), Quaternion.identity);
+            // spawn object in either hand (-1 or 1 in x axis)
+            Instantiate(jugglingObject, new Vector3(hand, (float)3.85, -1), Quaternion.identity);
+            jugglingObject.transform.position = new Vector3(hand, (float)3.85, -1);
 
             // apply material
             if( i < materials.Length )
@@ -77,6 +85,13 @@ public class Start_Up : MonoBehaviour
                 // apply material
                 jugglingObject.GetComponent<Renderer>().material = material;
             }
+
+            // Throw object up (NextMove ThrowObject)
+            jugglingObject.GetComponent<NextMove>().throwingHand = hand;
+            jugglingObject.GetComponent<NextMove>().ThrowObject();
+
+            // switch hands
+            hand *= -1;
         }
     }
 

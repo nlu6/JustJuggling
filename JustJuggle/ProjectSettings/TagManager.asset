@@ -6,6 +6,8 @@ TagManager:
   tags:
   - JugglingObject
   - Bonus
+  - LeftHand
+  - RightHand
   layers:
   - Default
   - TransparentFX

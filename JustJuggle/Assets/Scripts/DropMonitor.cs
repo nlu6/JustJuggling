@@ -16,11 +16,12 @@ using UnityEngine;
 
 public class DropMonitor : MonoBehaviour
 {
-    public void onCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "JugglingObject")
-        {
-            JustJugglingMain.GAME_END();
-        }
+        // Debug.Log("Collision detected");
+        // if (collision.gameObject.tag == "JugglingObject")
+        // {
+        //     JustJugglingMain.GAME_END();
+        // }
     }
 }
