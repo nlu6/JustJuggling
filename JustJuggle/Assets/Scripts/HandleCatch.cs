@@ -80,8 +80,8 @@ public class HandleCatch : MonoBehaviour
                 GameObject proximitySensor = proximityObjects[objectIndex];
 
                 // check for trigger collision with juggling object
-                if( collidedObjects.Contains(proximitySensor) )
-                {
+                //if( objectNearHand && collidedObjects.Contains(proximitySensor) )
+                //{
                     if( Input.anyKey )
                     {
                         // get player input
@@ -107,7 +107,7 @@ public class HandleCatch : MonoBehaviour
                             UpdateScore( -1, handPos, objectPos );
 
                             // reposistion juggling object to above hand (0.45 is ball radius plus hand radius)
-                            jugglingObject.transform.position = new UnityEngine.Vector3(handPos.x, handPos.y + 5f, handPos.z);
+                            jugglingObject.transform.position = new UnityEngine.Vector3(handPos.x, handPos.y + 1.5f, handPos.z);
 
                             // call for new input to throw object
                             jugglingObject.GetComponent<JugglingObject>().UpdateInput();
@@ -115,7 +115,7 @@ public class HandleCatch : MonoBehaviour
                 
                     // reset player input
                     playerInput = "";
-                    }
+                    //}
                 }
 
                 // if no collision with juggling object do nothing
@@ -233,7 +233,7 @@ public class HandleCatch : MonoBehaviour
             float scoreMult = (float)maxCatchDistance - distance;
 
             // update score based on distance
-            JustJugglingMain.OBJ_HIT(scoreMult);
+            JustJugglingMain.OBJ_HIT(Math.Abs(scoreMult));
         }
 
         // otherwise hand and object positions are zero update based on bonus scoring

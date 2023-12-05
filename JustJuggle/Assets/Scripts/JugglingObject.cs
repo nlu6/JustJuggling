@@ -116,8 +116,8 @@ public class JugglingObject : MonoBehaviour
 
 
         // cheat mode for debugging, freezes object near hand
-        if( cheatMode && (Math.Abs(objectHeight - interceptHeight) < 0.1) 
-                        || objectHeight < interceptHeight )
+        if( cheatMode && (Math.Abs(objectHeight - interceptHeight) < 0.1 
+                        || objectHeight < interceptHeight ) )
         {
             jugglingObject.transform.position = new Vector3(objectX, (float)interceptHeight/dpi, -1);
             yStep = 0;
