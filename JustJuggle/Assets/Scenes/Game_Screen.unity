@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 709102627317544587, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
+      propertyPath: m_TagString
+      value: Hand
+      objectReference: {fileID: 0}
     - target: {fileID: 862687266062403562, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -173,6 +177,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 862687266062403562, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 966753379513848636, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
+      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1254447234387949257, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
@@ -219,6 +227,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 6026457370459205895, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6416122126748806580, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -235,6 +247,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 8780049498801848317, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
+      propertyPath: m_TagString
+      value: Hand
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 1638153866504749642, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
@@ -244,12 +260,45 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4975799764992154880, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
       insertIndex: -1
       addedObject: {fileID: 899549913}
+    - targetCorrespondingSourceObject: {fileID: 8780049498801848317, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 374778672}
+    - targetCorrespondingSourceObject: {fileID: 709102627317544587, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 161182669}
   m_SourcePrefab: {fileID: 100100000, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
 --- !u!1 &161182663 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 709102627317544587, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
   m_PrefabInstance: {fileID: 144242226}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &161182669
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161182663}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &356710696
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,6 +372,33 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8780049498801848317, guid: d509bbac5abdc4187815ceacb3eb5667, type: 3}
   m_PrefabInstance: {fileID: 144242226}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &374778672
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374778666}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &395756943
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,7 +676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectDownwardVelocity: 0
-  jugglingHand: {fileID: 374778666}
+  jugglingHand: {fileID: 0}
   jugglingObject: {fileID: 0}
   nearestObject: {fileID: 0}
   player: {fileID: 0}
@@ -881,7 +957,7 @@ MonoBehaviour:
   jugglingObject: {fileID: 7128932109819231168, guid: 79a274a5cea3944519cfe540f5cf1641, type: 3}
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
-  numObjects: 1
+  numObjects: 2
   materials:
   - {fileID: 2100000, guid: 6d44a921660965746aad5096a3e0f1bc, type: 2}
   - {fileID: 2100000, guid: b9e9b1128b70f5843a2ccf42313f7b80, type: 2}
@@ -1045,8 +1121,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -600, y: 0}
-  m_SizeDelta: {x: -605, y: -200}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -5, y: -200}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1460885716
 MonoBehaviour:
@@ -1068,7 +1144,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: '0
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1170,6 +1248,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 293643050309071209, guid: efd4e4cbe1cd04dab8fe2a782d162c90, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 05ffd0615262fff4483336fe41408f11, type: 2}
+    - target: {fileID: 426183029674095033, guid: efd4e4cbe1cd04dab8fe2a782d162c90, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 05ffd0615262fff4483336fe41408f11, type: 2}
+    - target: {fileID: 6025509492951852405, guid: efd4e4cbe1cd04dab8fe2a782d162c90, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 05ffd0615262fff4483336fe41408f11, type: 2}
     - target: {fileID: 6029625557861503977, guid: efd4e4cbe1cd04dab8fe2a782d162c90, type: 3}
       propertyPath: m_Name
       value: Stage

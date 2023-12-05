@@ -31,6 +31,8 @@ public class StartUp : MonoBehaviour
     public int numObjects;
     [Tooltip("Array of materials that will be applied to the juggling objects")]
     public Material[] materials;
+    [Tooltip("Indicator that the objects have been spawned")]
+    public bool spawnedObjects = false;
 
 
     [Header("Crowd")]
@@ -40,6 +42,8 @@ public class StartUp : MonoBehaviour
     public int crowdSize;
     [Tooltip("Array of materials that will be applied to the crowd")]
     public Material[] crowdMaterials;
+    [Tooltip("Indicator that the crowd has been spawned")]
+    public bool spawnedCrowd = false;
 
     void Awake()
     {
@@ -51,8 +55,12 @@ public class StartUp : MonoBehaviour
         // spawn crowd
         Script.SpawnCrowd();
 
+        Script.spawnedCrowd = true;
+
         // spawn objects
         Script.SpawnJugglingObjects();
+
+        Script.spawnedObjects = true;
     }
 
     void SpawnJugglingObjects()

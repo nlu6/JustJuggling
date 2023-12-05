@@ -19,8 +19,8 @@ public class JugglingObject : MonoBehaviour
     [Tooltip("Juggling Object")]
     public GameObject jugglingObject;
     public new Rigidbody rigidbody;
-    public TextMeshProUGUI inputText = null;
-    public String[] possibleInputs = {"a", "s", "d", "f", "g"};
+    public TextMeshPro inputText = null;
+    public String[] possibleInputs = {"A", "S", "D", "F"};
     public double xDeviation = 0.5;
     public double interceptHeight = 3.4;
     private const int fixedFPS = 50;
@@ -32,6 +32,7 @@ public class JugglingObject : MonoBehaviour
     public int throwingHand = 0;
     public int destinationHand = 0; // -1 for right, 1 for left
     private String lastInput = "";
+    public bool objectNearHand = false;
     private double destinationX = 0;
     private double gravity = 0;
     private double framesUntilIntercept = 0;
@@ -148,9 +149,10 @@ public class JugglingObject : MonoBehaviour
         // save step size
         xStep = 2*Math.Abs(destinationX - currentPos) / framesUntilIntercept;
 
-        Debug.Log("Destination X: " + destinationX);
-        Debug.Log("Throwing Hand: " + throwingHand + "\nDestination Hand: " + destinationHand);
-        Debug.Log("X Step: " + xStep);
+        // Debug.Log("Destination X: " + destinationX);
+        // Debug.Log("Throwing Hand: " + throwingHand + "\nDestination Hand: " + destinationHand);
+        // Debug.Log("X Step: " + xStep);
+
         // get initial velocity
         double initVel = (currentHeight - interceptHeight + 0.5 * gravity * Math.Pow(framesUntilIntercept, 2) ) / framesUntilIntercept;
 
@@ -173,6 +175,6 @@ public class JugglingObject : MonoBehaviour
         expectedInput = possibleInputs[inputIndex];
 
         // update input display
-        inputText.text = expectedInput;
+        inputText.text = expectedInput.ToUpper();
     }
 }

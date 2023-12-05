@@ -6,8 +6,8 @@ TagManager:
   tags:
   - JugglingObject
   - Bonus
-  - LeftHand
-  - RightHand
+  - Hand
+  - Proximity
   layers:
   - Default
   - TransparentFX
@@ -21,7 +21,7 @@ TagManager:
   - Hands
   - Juggling Objects
   - Stage
-  - 
+  - Proximity
   - 
   - 
   - 
