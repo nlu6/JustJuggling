@@ -5,8 +5,8 @@ using UnityEngine;
 public class SongManager : MonoBehaviour
 {
     [Header("Inscribed")]
-    public float songBpm;
-    public float firstBeatOffset;
+    public float songBpm = 160f;
+    public float firstBeatOffset = 0.376f;
     public float pitchIncr = 0.05f;
     public float songStartDelay = 1f;
     public float songLoopDelay = 2f;
@@ -213,7 +213,7 @@ public class SongManager : MonoBehaviour
     {
         double timeUntilIntercept = Script.juggleTimes[Script.lastAssignedIndex] - Script.songPosition;
 
-        Script.lastAssignedIndex = (Script.lastAssignedIndex + 1) % Script.numTStmps;
+        Script.lastAssignedIndex++;
 
         return timeUntilIntercept;
     }
