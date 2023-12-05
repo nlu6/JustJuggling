@@ -8,18 +8,14 @@ public class Settings : MonoBehaviour
 {
     public AudioMixer masterMixer;
 
-    public void OnMenuButtonClick()
-    {
+    public void OnMenuButtonClick() {
+
         SceneManager.LoadScene("Start_Screen");
     }
 
-    public void VolumeSlider(float volumeLevel) {
-
-        masterMixer.SetFloat("Volume", volumeLevel);
-    }
-
-    public void InputDelaySlider()
-    {
+    /*
+    public void InputDelaySlider() {
 
     }
+    */
 }
