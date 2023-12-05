@@ -21,7 +21,7 @@ public class JugglingObject : MonoBehaviour
     public new Rigidbody rigidbody;
     public TextMeshProUGUI inputText = null;
     public String[] possibleInputs = {"a", "s", "d", "f", "g"};
-    public double xDeviation = 1;
+    public double xDeviation = 0.5;
     public double interceptHeight = 3.4;
     private const int fixedFPS = 50;
     private float dpi = 96;
@@ -98,7 +98,7 @@ public class JugglingObject : MonoBehaviour
         float objectHeight = jugglingObject.transform.position.y;
         float objectX = jugglingObject.transform.position.x;
 
-        if( objectX <= destinationX )
+        if( objectX >= destinationX )
         {
             xStep = -xStep;
         }
@@ -111,7 +111,7 @@ public class JugglingObject : MonoBehaviour
         // update position  
         jugglingObject.transform.position = jugglingObject.transform.position + new Vector3((float)xStep, (float)yStep, 0);
         // Debug.Log("Object Height: " + objectHeight + "\nOBject X Change: " + xStep + "\nObject Height Change: " + yStep); 
-        Debug.Log("X Step: " + xStep + "\nY Step: " + yStep);
+        // Debug.Log("X Step: " + xStep + "\nY Step: " + yStep);
     }
 
     // Update destination
@@ -124,8 +124,12 @@ public class JugglingObject : MonoBehaviour
         // log time intil intercept
         framesUntilIntercept = timeUntilIntercept * fixedFPS;
 
+        // get current position of juggling object
+        double currentPos = jugglingObject.transform.position.x;
+        double currentHeight = jugglingObject.transform.position.y * dpi;
+
         // set throwing hand
-        if( destinationX < 0 )
+        if( currentPos <= 0 )
         {
             throwingHand = -1;
         }
@@ -135,25 +139,26 @@ public class JugglingObject : MonoBehaviour
         }
 
         // randomly decide left or right hand (-1 or 1) to go to
-        int hand = UnityEngine.Random.Range(-1, 1);
+        destinationHand = UnityEngine.Random.Range(-1, 1);
 
         // get x position of hand (hand location +/- deviation)
         // this will make the look of the juggling more natural since the hands will not always be in the same place
-        destinationX = hand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation); // convert to pixels
+        destinationX = destinationHand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation); // convert to pixels
 
         // save step size
-        double currentPost = jugglingObject.transform.position.x;
-        xStep = Math.Abs(destinationX - currentPost) / framesUntilIntercept;
+        xStep = 2*Math.Abs(destinationX - currentPos) / framesUntilIntercept;
 
+        Debug.Log("Destination X: " + destinationX);
+        Debug.Log("Throwing Hand: " + throwingHand + "\nDestination Hand: " + destinationHand);
+        Debug.Log("X Step: " + xStep);
         // get initial velocity
-        double initialY = jugglingObject.transform.position.y * dpi; // convert to pixels
-        double initVel = (initialY - interceptHeight + 0.5 * gravity * Math.Pow(framesUntilIntercept, 2) ) / framesUntilIntercept;
+        double initVel = (currentHeight - interceptHeight + 0.5 * gravity * Math.Pow(framesUntilIntercept, 2) ) / framesUntilIntercept;
 
         // get maximum height of throw
         maxHeight = Math.Pow(initVel, 2)/ (2 * gravity);
 
         // get y step size
-        yStep = 2 * (maxHeight - initialY) / framesUntilIntercept;
+        yStep = 2*Math.Abs(maxHeight - currentHeight) / framesUntilIntercept;
 
         // update input
         lastInput = expectedInput;

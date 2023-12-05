@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -600,11 +600,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectDownwardVelocity: 0
-  jugglingHand: {fileID: 0}
+  jugglingHand: {fileID: 374778666}
   jugglingObject: {fileID: 0}
   nearestObject: {fileID: 0}
   player: {fileID: 0}
   jugglingScript: {fileID: 0}
+  rigidbody: {fileID: 0}
   handPosition: {x: 0, y: 0, z: 0}
   objectPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
@@ -1239,12 +1240,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7680085034241724101, guid: efd4e4cbe1cd04dab8fe2a782d162c90, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1993111199}
-    - targetCorrespondingSourceObject: {fileID: 6374383696851240338, guid: efd4e4cbe1cd04dab8fe2a782d162c90, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 706876652}
-    - targetCorrespondingSourceObject: {fileID: 7272194339453520765, guid: efd4e4cbe1cd04dab8fe2a782d162c90, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 832768108}
   m_SourcePrefab: {fileID: 100100000, guid: efd4e4cbe1cd04dab8fe2a782d162c90, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
