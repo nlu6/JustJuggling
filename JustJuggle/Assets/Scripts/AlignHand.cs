@@ -1,11 +1,10 @@
 /*
  * Contributors: Nathan Underwood
- * Last Modified: Dec. 1, 2023
+ * Last Modified: Dec. 4, 2023
  * 
  * Purpose: This script fetches the information from a falling object and moves
- * the juggler's hands to the correct position to catch the object. When
- * appropriate, the Catch function from this script should be called by the
- * game.
+ * the juggler's hands to the correct position to catch the object. The hand
+ * constantly hovers below the ball it's meant to catch.
  * 
  * Binds With:  Juggling Objects
  * Modifies:    Juggler's Hands (Position)
@@ -13,21 +12,16 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public enum HandFlag { LEFT, RIGHT };
 public class AlignHand : MonoBehaviour {
 
-    public double objectDownwardVelocity;
-    public GameObject jugglingHand;
-    public GameObject jugglingObject;
-    public GameObject nearestObject;
-    public GameObject player;
-    public JugglingObject jugglingScript;
-    public new Rigidbody rigidbody;
-    public Vector3 handPosition;
-    public Vector3 objectPosition; 
+    GameObject jugglingHand;
+    GameObject nearestObject;
+    GameObject player;
+    JugglingObject jugglingObject;
+    new Rigidbody rigidbody;
+    Vector3 objectPosition; 
 
     public void FixedUpdate() {
 
@@ -45,25 +39,18 @@ public class AlignHand : MonoBehaviour {
         if(nearestObject != null) {
 
             // fetch data from the juggling object
-            jugglingScript = nearestObject.GetComponent<JugglingObject>();
+            jugglingObject = nearestObject.GetComponent<JugglingObject>();
             rigidbody = nearestObject.GetComponent<Rigidbody>();
 
             // determine which hand needs to be moved – based on the identifier that the object has
-            if(jugglingScript.destinationHand == -1) {
+            if(jugglingObject.destinationHand == -1) {
                 
                 jugglingHand = GameObject.Find("RightHand");  
             }
-            else if(jugglingScript.destinationHand == 1) {
+            else if(jugglingObject.destinationHand == 1) {
 
                 jugglingHand = GameObject.Find("LeftHand");  
             }
-
-            // fetch the positional data from the juggling object
-            objectPosition = nearestObject.transform.position;
-            objectDownwardVelocity = rigidbody.velocity.y; // how fast the object is traveling downward
-
-            // fetch the positional data of the hand
-            handPosition = jugglingHand.transform.position;
 
             // intercept the juggling object
             InterceptObject();
@@ -72,14 +59,16 @@ public class AlignHand : MonoBehaviour {
 
     void InterceptObject() {
 
-        double objectHandDelta; // how far away the object is from the juggler's hand
-        double timeUntilIntercept; // how long until the ball reaches the hand
-        Vector3 landingSpot; // the position on the xy plane where the object will land
+        Vector3 landingSpot; // the position on the xz plane where the object will land
+
+        // fetch positional data
+        objectPosition = nearestObject.transform.position;
 
         landingSpot.x = objectPosition.x;
-        landingSpot.y = 3.4f;
+        landingSpot.y = 3.4f; // constant value the hands stay at
         landingSpot.z = objectPosition.z;
 
+        // define the maximum distance the hand can physically travel
         if(landingSpot.x > 2.5f) {
 
             landingSpot.x = 2.5f;
@@ -89,18 +78,14 @@ public class AlignHand : MonoBehaviour {
             landingSpot.x = -2.5f;
         }
 
-        objectHandDelta = objectPosition.z - jugglingHand.transform.position.z;
-        timeUntilIntercept = objectHandDelta / objectDownwardVelocity;
-
-        // move the hand to the landing spot over the time until the intercept
+        // move the hand to below the landing spot 
         jugglingHand.transform.position = landingSpot;
-            //  Vector3.Lerp(handPosition, landingSpot, (float)timeUntilIntercept);
     }
 
     GameObject FindNearestFallingObject() {
 
-        double downwardVelocity;
         float distance = Mathf.Infinity; // distance used for comparisons
+        float velocity; // the velocity of the juggling object
         GameObject nearestObject = null; // the nearest juggling object to the player
         Vector3 position = player.transform.position; // get the position of the player
         
@@ -111,12 +96,12 @@ public class AlignHand : MonoBehaviour {
         // determine which juggling object is closest to the player
         foreach(GameObject gameObject in gameObjects) {
 
-            jugglingScript = gameObject.GetComponent<JugglingObject>();
+            jugglingObject = gameObject.GetComponent<JugglingObject>();
             rigidbody = gameObject.GetComponent<Rigidbody>();
 
-            downwardVelocity = rigidbody.velocity.y;
+            velocity = rigidbody.velocity.y;
 
-            if(downwardVelocity < 0) { // ensure that the downward velocity is indeed downward
+            if(velocity < 0) { // check that the velocity is downward
 
                 Vector3 delta = gameObject.transform.position - position;
                 float currentDistance = delta.sqrMagnitude;
