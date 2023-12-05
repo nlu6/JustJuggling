@@ -16,12 +16,12 @@ using UnityEngine;
 
 public class AlignHand : MonoBehaviour {
 
-    GameObject jugglingHand;
-    GameObject nearestObject;
-    GameObject player;
-    JugglingObject jugglingObject;
+    GameObject jugglingHand = null; // the hand used to catch the ball
+    GameObject nearestObject = null; 
+    GameObject player = null;
+    JugglingObject jugglingObject; // a reference to the properties of the juggling object
     new Rigidbody rigidbody;
-    Vector3 objectPosition; 
+    Vector3 objectPosition;
 
     public void FixedUpdate() {
 
@@ -47,7 +47,8 @@ public class AlignHand : MonoBehaviour {
                 
                 jugglingHand = GameObject.Find("RightHand");  
             }
-            else if(jugglingObject.destinationHand == 1) {
+            else {
+            // else if(jugglingObject.destinationHand == 1) {
 
                 jugglingHand = GameObject.Find("LeftHand");  
             }
@@ -59,7 +60,7 @@ public class AlignHand : MonoBehaviour {
 
     void InterceptObject() {
 
-        Vector3 landingSpot; // the position on the xz plane where the object will land
+        Vector3 landingSpot = Vector3.zero; // the position on the xz plane where the object will land
 
         // fetch positional data
         objectPosition = nearestObject.transform.position;
@@ -88,13 +89,14 @@ public class AlignHand : MonoBehaviour {
         float velocity; // the velocity of the juggling object
         GameObject nearestObject = null; // the nearest juggling object to the player
         Vector3 position = player.transform.position; // get the position of the player
-        
-        GameObject[] gameObjects; // the list of all juggling objects
 
-        gameObjects = GameObject.FindGameObjectsWithTag("JugglingObject");
+        GameObject[] jugglingObjects; // a list of all juggling objects
+
+        // find all of the juggling objects
+        jugglingObjects = GameObject.FindGameObjectsWithTag("JugglingObject");
 
         // determine which juggling object is closest to the player
-        foreach(GameObject gameObject in gameObjects) {
+        foreach(GameObject gameObject in jugglingObjects) {
 
             jugglingObject = gameObject.GetComponent<JugglingObject>();
             rigidbody = gameObject.GetComponent<Rigidbody>();
