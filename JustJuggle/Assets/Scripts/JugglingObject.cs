@@ -21,8 +21,10 @@ public class JugglingObject : MonoBehaviour
     public new Rigidbody rigidbody;
     public TextMeshProUGUI inputText = null;
     public String[] possibleInputs = {"a", "s", "d", "f", "g"};
-    public double xDeviation = 0.25;
+    public double xDeviation = 1;
     public double interceptHeight = 3.4;
+    private const int fixedFPS = 50;
+    private float dpi = 96;
 
     [Header("Dynamic")]
     [Tooltip("Input expected from juggling object, changes every throw")]
@@ -34,7 +36,10 @@ public class JugglingObject : MonoBehaviour
     private double gravity = 0;
     private double framesUntilIntercept = 0;
     private double timeUntilIntercept = 0;
-    private const int fixedFPS = 50;
+    private double xStep = 0;
+    private double yStep = 0;
+    private double maxHeight = 0;
+
 
 
 
@@ -45,16 +50,23 @@ public class JugglingObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // get dpi
+        dpi = Screen.dpi;
+        
+        // conver dpi from in to m
+        dpi /= (float)39.37;
+
+        // update heigh
+        interceptHeight *= dpi;
+
         // Get juggling object
         int inputIndex = UnityEngine.Random.Range(0, possibleInputs.Length);
         expectedInput = possibleInputs[inputIndex];
 
-        lastInput = expectedInput;
-
         // set input text
         inputText.text = expectedInput;
 
-        gravity = Physics.gravity.magnitude;
+        gravity = Physics.gravity.magnitude * dpi / Math.Pow(fixedFPS, 2);  // gravity in pixel/frame^2
 
         // get initial time until intercept
         timeUntilIntercept = SongManager.INTERCEPT_TIME();
@@ -67,7 +79,7 @@ public class JugglingObject : MonoBehaviour
         if( lastInput == expectedInput )
         {
             // we are still in same trajectory update velocity
-            ThrowObject();
+            MoveObject();
 
             // update time until intercept
             framesUntilIntercept--;
@@ -80,42 +92,38 @@ public class JugglingObject : MonoBehaviour
     }
 
     // Throw object
-    public void ThrowObject()
+    public void MoveObject()
     {
         // get position of juggling object
-        Vector3 objectPos = jugglingObject.transform.position;
-        double objectHeight = objectPos.y;
-        double objectX = objectPos.x;
+        float objectHeight = jugglingObject.transform.position.y;
+        float objectX = jugglingObject.transform.position.x;
 
-        // calculate trajectory (basic physics projectile motion)
-        // https://www.omnicalculator.com/physics/projectile-motion
-        // ====================
-        // get velocity in x direction
-        double handX = destinationX;
-        double velocityX = (handX - objectX) / framesUntilIntercept;
+        if( objectX <= destinationX )
+        {
+            xStep = -xStep;
+        }
+        if( objectHeight >= maxHeight )
+        {
+            yStep = -yStep;
+        }
 
-        // get velocity in y direction
-        double currentVel = rigidbody.velocity.y;
-        double velocityY = currentVel - gravity * timeUntilIntercept;
 
-        // get velocity in z (nothing we're planar )
-        double velocityZ = 0;
-
-        // NOTE: if object is not ball add rotations here
-        
-        // throw object
-        // ============
-        // set velocity of juggling object
-        rigidbody.velocity = new Vector3((float)velocityX, (float)velocityY, (float)velocityZ);
-        Debug.Log("New Velocity: " + rigidbody.velocity);
-
-        // update time until intercept
-        timeUntilIntercept = framesUntilIntercept / fixedFPS;
+        // update position  
+        jugglingObject.transform.position = jugglingObject.transform.position + new Vector3((float)xStep, (float)yStep, 0);
+        // Debug.Log("Object Height: " + objectHeight + "\nOBject X Change: " + xStep + "\nObject Height Change: " + yStep); 
+        Debug.Log("X Step: " + xStep + "\nY Step: " + yStep);
     }
 
     // Update destination
     void UpdateDestination()
     {
+        
+        // get time object needs to land in hand next from music sync script
+        timeUntilIntercept = SongManager.INTERCEPT_TIME();
+
+        // log time intil intercept
+        framesUntilIntercept = timeUntilIntercept * fixedFPS;
+
         // set throwing hand
         if( destinationX < 0 )
         {
@@ -131,25 +139,24 @@ public class JugglingObject : MonoBehaviour
 
         // get x position of hand (hand location +/- deviation)
         // this will make the look of the juggling more natural since the hands will not always be in the same place
-        double handX = hand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation);
+        destinationX = hand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation); // convert to pixels
 
-        // log destination
-        destinationX = handX;
-
-        // get time object needs to land in hand next from music sync script
-        timeUntilIntercept = SongManager.INTERCEPT_TIME();
-
-        // log time intil intercept
-        framesUntilIntercept = timeUntilIntercept * fixedFPS;
+        // save step size
+        double currentPost = jugglingObject.transform.position.x;
+        xStep = Math.Abs(destinationX - currentPost) / framesUntilIntercept;
 
         // get initial velocity
-        double initialY = jugglingObject.transform.position.y;
-
-        // calculate initial velocity
+        double initialY = jugglingObject.transform.position.y * dpi; // convert to pixels
         double initVel = (initialY - interceptHeight + 0.5 * gravity * Math.Pow(framesUntilIntercept, 2) ) / framesUntilIntercept;
 
-        // set velocity of juggling object
-        rigidbody.velocity = new Vector3(0, (float)initVel, 0);
+        // get maximum height of throw
+        maxHeight = Math.Pow(initVel, 2)/ (2 * gravity);
+
+        // get y step size
+        yStep = 2 * (maxHeight - initialY) / framesUntilIntercept;
+
+        // update input
+        lastInput = expectedInput;
     }
 
     // Update is called once per frame
@@ -157,6 +164,7 @@ public class JugglingObject : MonoBehaviour
     {
         // Changes number inputted
         int inputIndex = UnityEngine.Random.Range(0, possibleInputs.Length);
+        lastInput = expectedInput;
         expectedInput = possibleInputs[inputIndex];
 
         // update input display

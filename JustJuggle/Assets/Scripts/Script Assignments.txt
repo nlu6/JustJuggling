@@ -4,7 +4,6 @@ That way we don't have to refigure it out if things get screwed up
 --> Ordered Alphabetically
 
 AlignHand.cs 			-> 	LeftHand and RightHand in Player
-CatchObject.cs			->		No Clue
 DropMonitor.cs 		-> 	Platform, Rug, and Floor in Stage
 GameOver.cs 			-> 	Canvas in GameOver_Screen scene
 HandleCatch.cs 		-> 	LeftHand and RightHand in Player

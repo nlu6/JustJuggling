@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum HandFlag { LEFT, RIGHT };
 public class AlignHand : MonoBehaviour {
 
     public float objectDownwardVelocity;

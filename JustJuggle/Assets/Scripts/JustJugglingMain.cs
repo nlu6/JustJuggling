@@ -73,9 +73,6 @@ public class JustJugglingMain : MonoBehaviour
         PlayerPrefs.SetInt("Score", Script.playerScore);
 
         // TODO: fade to end screen
-        SceneManager.LoadScene("EndScene");
-
-        // unload main scene
-        SceneManager.UnloadSceneAsync("MainScene");
+        SceneManager.LoadScene("GameOver_Screen");
     }
 }

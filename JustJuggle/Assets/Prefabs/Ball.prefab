@@ -369,6 +369,7 @@ MonoBehaviour:
   interceptHeight: 3.4
   expectedInput: 
   throwingHand: -1
+  destinationHand: 0
 --- !u!54 &-6813682943196025221
 Rigidbody:
   m_ObjectHideFlags: 0
