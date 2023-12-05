@@ -29,7 +29,6 @@ public class JugglingObject : MonoBehaviour
     public String expectedInput = "";
     public int throwingHand = 0;
     public int destinationHand = 0; // -1 for right, 1 for left
-    public double velocityY = 0;
     private String lastInput = "";
     private double destinationX = 0;
     private double gravity = 0;

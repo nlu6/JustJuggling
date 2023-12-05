@@ -24,6 +24,7 @@ public class AlignHand : MonoBehaviour {
     public GameObject nearestObject;
     public GameObject player;
     public JugglingObject jugglingScript;
+    public new Rigidbody rigidbody;
     public Vector3 handPosition;
     public Vector3 objectPosition; 
 
@@ -42,8 +43,9 @@ public class AlignHand : MonoBehaviour {
 
         if(nearestObject != null) {
 
-            // fetch the juggling objects script
+            // fetch data from the juggling object
             jugglingScript = nearestObject.GetComponent<JugglingObject>();
+            rigidbody = nearestObject.GetComponent<Rigidbody>();
 
             // determine which hand needs to be moved – based on the identifier that the object has
             if(jugglingScript.destinationHand == -1) {
@@ -57,7 +59,7 @@ public class AlignHand : MonoBehaviour {
 
             // fetch the positional data from the juggling object
             objectPosition = nearestObject.transform.position;
-            objectDownwardVelocity = jugglingScript.velocityY; // how fast the object is traveling downward
+            objectDownwardVelocity = rigidbody.velocity.y; // how fast the object is traveling downward
 
             // fetch the positional data of the hand
             handPosition = jugglingHand.transform.position;
@@ -99,8 +101,9 @@ public class AlignHand : MonoBehaviour {
         foreach(GameObject gameObject in gameObjects) {
 
             jugglingScript = gameObject.GetComponent<JugglingObject>();
+            rigidbody = gameObject.GetComponent<Rigidbody>();
 
-            downwardVelocity = jugglingScript.velocityY;
+            downwardVelocity = rigidbody.velocity.y;
 
             if(downwardVelocity < 0) { // ensure that the downward velocity is indeed downward
 
