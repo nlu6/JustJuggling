@@ -48,7 +48,6 @@ public class AlignHand : MonoBehaviour {
                 jugglingHand = GameObject.Find("RightHand");  
             }
             else {
-            // else if(jugglingObject.destinationHand == 1) {
 
                 jugglingHand = GameObject.Find("LeftHand");  
             }
@@ -103,7 +102,7 @@ public class AlignHand : MonoBehaviour {
 
             velocity = rigidbody.velocity.y;
 
-            if(velocity < 0) { // check that the velocity is downward
+            if(velocity < 0) { // check that the object is falling
 
                 Vector3 delta = gameObject.transform.position - position;
                 float currentDistance = delta.sqrMagnitude;

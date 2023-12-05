@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -599,15 +599,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ba35b33de3bb8469561b2f0a84328d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectDownwardVelocity: 0
-  jugglingHand: {fileID: 374778666}
-  jugglingObject: {fileID: 0}
-  nearestObject: {fileID: 0}
-  player: {fileID: 0}
-  jugglingScript: {fileID: 0}
-  rigidbody: {fileID: 0}
-  handPosition: {x: 0, y: 0, z: 0}
-  objectPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,7 +872,7 @@ MonoBehaviour:
   jugglingObject: {fileID: 7128932109819231168, guid: 79a274a5cea3944519cfe540f5cf1641, type: 3}
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
-  numObjects: 1
+  numObjects: 8
   materials:
   - {fileID: 2100000, guid: 6d44a921660965746aad5096a3e0f1bc, type: 2}
   - {fileID: 2100000, guid: b9e9b1128b70f5843a2ccf42313f7b80, type: 2}
