@@ -41,9 +41,6 @@ public class JustJugglingMain : MonoBehaviour
         
         playerScore = 0;
         objJuggled = 0;
-
-        // wait 5 seconds before calling start up
-        Invoke("StartUp", 5);
         
         // call start up
         StartUp.SPAWN_OBJECTS();

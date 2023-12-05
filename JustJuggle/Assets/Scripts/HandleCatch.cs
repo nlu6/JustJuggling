@@ -90,7 +90,7 @@ public class HandleCatch : MonoBehaviour
                     playerInput = Input.inputString;
 
                     // get input juggling oject is expecting
-                    expectedInput = jugglingObject.GetComponent<NextMove>().expectedInput;
+                    expectedInput = jugglingObject.GetComponent<JugglingObject>().expectedInput;
 
                     // check if player input matches expected input
                     if( playerInput == expectedInput )
@@ -118,7 +118,7 @@ public class HandleCatch : MonoBehaviour
                         jugglingObject.GetComponent<Rigidbody>().angularVelocity = UnityEngine.Vector3.zero;
 
                         // call for new input to throw object
-                        jugglingObject.GetComponent<NextMove>().UpdateInput();
+                        jugglingObject.GetComponent<JugglingObject>().UpdateInput();
                     }
                     // otherwise player input does not match expected input
                     else

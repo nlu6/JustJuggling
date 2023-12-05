@@ -11,13 +11,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 
-public class NextMove : MonoBehaviour
+public class JugglingObject : MonoBehaviour
 {
     [Header("Inscribed")]
     [Tooltip("Juggling Object")]
     public GameObject jugglingObject;
-    public new Rigidbody rigidbody = null;
+    public new Rigidbody rigidbody;
+    public TextMeshProUGUI inputText = null;
     public String[] possibleInputs = {"a", "s", "d", "f", "g"};
     public double xDeviation = 0.25;
     public double interceptHeight = 3.4;
@@ -36,17 +38,20 @@ public class NextMove : MonoBehaviour
 
 
     [Header("Static")]
-    [Tooltip("NextMove script")]
-    public static NextMove Script;
+    [Tooltip("JugglingObject script")]
+    public static JugglingObject Script;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         // Get juggling object
         int inputIndex = UnityEngine.Random.Range(0, possibleInputs.Length);
         expectedInput = possibleInputs[inputIndex];
 
         lastInput = expectedInput;
+
+        // set input text
+        inputText.text = expectedInput;
 
         gravity = Physics.gravity.magnitude;
 
@@ -56,7 +61,7 @@ public class NextMove : MonoBehaviour
     }
 
     // listen for space input
-    void UpdateFixed()
+    void FixedUpdate()
     {
         if( lastInput == expectedInput )
         {
@@ -93,7 +98,7 @@ public class NextMove : MonoBehaviour
         Debug.Log(velocityX);
 
         // get velocity in y direction
-        double velocityY = (interceptHeight - objectHeight) / timeUntilIntercept + 0.5 * gravity / timeUntilIntercept;
+        double velocityY = Math.Abs(interceptHeight - objectHeight) / timeUntilIntercept - 0.5 * gravity / timeUntilIntercept;
         Debug.Log(interceptHeight);
         Debug.Log(objectHeight);
         Debug.Log(gravity);
@@ -108,6 +113,7 @@ public class NextMove : MonoBehaviour
         // ============
         // set velocity of juggling object
         rigidbody.velocity = new Vector3((float)velocityX, (float)velocityY, (float)velocityZ);
+        Debug.Log("New Velocity: " + rigidbody.velocity);
 
         // update time until intercept
         timeUntilIntercept = framesUntilIntercept / fixedFPS;
@@ -149,5 +155,8 @@ public class NextMove : MonoBehaviour
         // Changes number inputted
         int inputIndex = UnityEngine.Random.Range(0, possibleInputs.Length);
         expectedInput = possibleInputs[inputIndex];
+
+        // update input display
+        inputText.text = expectedInput;
     }
 }

@@ -9,7 +9,7 @@ DropMonitor.cs 		-> 	Platform, Rug, and Floor in Stage
 GameOver.cs 			-> 	Canvas in GameOver_Screen scene
 HandleCatch.cs 		-> 	LeftHand and RightHand in Player
 JustJuggleMain.cs 	->	 	Main Camera in Game_Screen scene
-NexMove.cs 				-> 	Ball Prefab or any other juggling object
+JugglingObject.cs 	-> 	Ball Prefab or any other juggling object
 Settings.cs 			-> 	Canvas in Settings_Screen scene
 SongManager.cs 		-> 	Main Camera in Game_Screen scene
 StartScreen.cs 		-> 	Main Camera in Start_Screen scene

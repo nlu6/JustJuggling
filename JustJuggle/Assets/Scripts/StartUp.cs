@@ -61,8 +61,8 @@ public class StartUp : MonoBehaviour
         for (int i = 0; i < numObjects; i++)
         {
             // spawn object in either hand (-1 or 1 in x axis)
-            Instantiate(jugglingObject, new Vector3(hand, (float)3.85, -1), Quaternion.identity);
-            jugglingObject.transform.position = new Vector3(hand, (float)3.85, -1);
+            Instantiate(jugglingObject, new Vector3(hand, (float)3.5, -1), Quaternion.identity);
+            jugglingObject.transform.position = new Vector3(hand, (float)3.5, -1);
 
             // apply material
             if( i < materials.Length )
@@ -86,9 +86,8 @@ public class StartUp : MonoBehaviour
                 jugglingObject.GetComponent<Renderer>().material = material;
             }
 
-            // Throw object up (NextMove ThrowObject)
-            jugglingObject.GetComponent<NextMove>().throwingHand = hand;
-            jugglingObject.GetComponent<NextMove>().ThrowObject();
+            // Let object know which hand it's in, it will throw itself
+            jugglingObject.GetComponent<JugglingObject>().throwingHand = hand;
 
             // switch hands
             hand *= -1;
