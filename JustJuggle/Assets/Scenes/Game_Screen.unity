@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1061,7 +1061,6 @@ GameObject:
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
   - component: {fileID: 963194231}
-  - component: {fileID: 963194232}
   - component: {fileID: 963194233}
   m_Layer: 0
   m_Name: Main Camera
@@ -1137,13 +1136,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.04583213, y: -0, z: -0, w: 0.99894917}
+  m_LocalRotation: {x: -0.1567579, y: -0, z: -0, w: 0.9876371}
   m_LocalPosition: {x: 0, y: 2.09, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -5.254, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -18.038, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1161,6 +1160,7 @@ MonoBehaviour:
   pitchIncr: 0.05
   songStartDelay: 1
   songLoopDelay: 2
+  beatsSkipped: 10
   musicSource: {fileID: 0}
   timestampFile: {fileID: 4900000, guid: 7bae98ba285a3679ca02d60c57e972a7, type: 3}
   songLength: 0
@@ -1181,7 +1181,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 244b5665cd966df4eb1b886639104ac4, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ca04797ba6b6f37fc8ac389ddb55a6a1, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1283,30 +1283,10 @@ MonoBehaviour:
   scoreAdd: 100
   playerScore: 0
   objJuggled: 0
-  uitScore: {fileID: 0}
-  uitJuggleCount: {fileID: 0}
---- !u!114 &963194232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecc7bc81bb8c3e74daf286adc8048e6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jugglingObject: {fileID: 7128932109819231168, guid: 79a274a5cea3944519cfe540f5cf1641, type: 3}
-  leftHand: {fileID: 0}
-  rightHand: {fileID: 0}
-  numObjects: 0
-  materials: []
-  spawnedObjects: 0
-  crowd: {fileID: 0}
-  crowdSize: 0
-  crowdMaterials: []
-  spawnedCrowd: 0
+  uitScore: {fileID: 395756945}
+  uitJuggleCount: {fileID: 1460885716}
+  bonusText: 
+  bonusActive: 0
 --- !u!114 &963194233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1322,18 +1302,15 @@ MonoBehaviour:
   jugglingObject: {fileID: 7128932109819231168, guid: 79a274a5cea3944519cfe540f5cf1641, type: 3}
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
-  numObjects: 2
+  numObjects: 1
+  hand: -1
+  spawnInterval: 2
   materials:
   - {fileID: 2100000, guid: 6d44a921660965746aad5096a3e0f1bc, type: 2}
   - {fileID: 2100000, guid: b9e9b1128b70f5843a2ccf42313f7b80, type: 2}
   - {fileID: 2100000, guid: 52f4b2eaa6f40ae48b79545b7a51fa37, type: 2}
   - {fileID: 2100000, guid: e08ffc91005e6e3478eec2fa1bcde249, type: 2}
   - {fileID: 2100000, guid: 809774ea8d3b0494b98dfefb223ba681, type: 2}
-  spawnedObjects: 0
-  crowd: {fileID: 0}
-  crowdSize: 0
-  crowdMaterials: []
-  spawnedCrowd: 0
 --- !u!1 &968934060
 GameObject:
   m_ObjectHideFlags: 0
@@ -2173,8 +2150,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

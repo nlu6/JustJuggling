@@ -9,7 +9,6 @@ public class CrowdPersonBounce : MonoBehaviour
     float randomStartTime;
     float randomStartHeight;
     Vector3 initialPosition;
-
     public void InitializeBounce(float height, float speed, float startTime, float startHeight, Vector3 initialPos)
     {
         jumpHeight = height;

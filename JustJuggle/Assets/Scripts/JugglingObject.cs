@@ -19,12 +19,17 @@ public class JugglingObject : MonoBehaviour
     [Tooltip("Juggling Object")]
     public GameObject jugglingObject;
     public new Rigidbody rigidbody;
+    public Rigidbody proximitySensor;
     public TextMeshPro inputText = null;
     public String[] possibleInputs = {"A", "S", "D", "F"};
-    public double xDeviation = 0.5;
+    public double xDeviation = 0.3;
     public double interceptHeight = 3.4;
+    public int camViewHeight = 12;
     private const int fixedFPS = 50;
+    public float slowFactor = 3;
     private float dpi = 96;
+    [Tooltip("Cheat mode for debugging")]
+    public bool cheatMode = false;
 
     [Header("Dynamic")]
     [Tooltip("Input expected from juggling object, changes every throw")]
@@ -51,6 +56,7 @@ public class JugglingObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Cheats: " + cheatMode);
         // get dpi
         dpi = Screen.dpi;
         
@@ -96,7 +102,7 @@ public class JugglingObject : MonoBehaviour
     public void MoveObject()
     {
         // get position of juggling object
-        float objectHeight = jugglingObject.transform.position.y;
+        float objectHeight = jugglingObject.transform.position.y*dpi;
         float objectX = jugglingObject.transform.position.x;
 
         if( objectX >= destinationX )
@@ -109,10 +115,34 @@ public class JugglingObject : MonoBehaviour
         }
 
 
-        // update position  
+        // cheat mode for debugging, freezes object near hand
+        if( cheatMode && (Math.Abs(objectHeight - interceptHeight) < 0.1) 
+                        || objectHeight < interceptHeight )
+        {
+            jugglingObject.transform.position = new Vector3(objectX, (float)interceptHeight/dpi, -1);
+            yStep = 0;
+            rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
+            rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
+            rigidbody.useGravity = false;
+
+            proximitySensor.constraints = RigidbodyConstraints.FreezePositionY;
+            proximitySensor.constraints = RigidbodyConstraints.FreezePositionZ;
+            proximitySensor.useGravity = false;
+        }
+
+        if( cheatMode && Math.Abs(objectX - destinationX) < 0.1 )
+        {
+            xStep = 0;
+
+            rigidbody.constraints = RigidbodyConstraints.FreezePositionX;
+            rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
+
+            proximitySensor.constraints = RigidbodyConstraints.FreezePositionX;
+            proximitySensor.constraints = RigidbodyConstraints.FreezePositionZ;
+        }
+
+        // update position
         jugglingObject.transform.position = jugglingObject.transform.position + new Vector3((float)xStep, (float)yStep, 0);
-        // Debug.Log("Object Height: " + objectHeight + "\nOBject X Change: " + xStep + "\nObject Height Change: " + yStep); 
-        // Debug.Log("X Step: " + xStep + "\nY Step: " + yStep);
     }
 
     // Update destination
@@ -140,27 +170,30 @@ public class JugglingObject : MonoBehaviour
         }
 
         // randomly decide left or right hand (-1 or 1) to go to
-        destinationHand = UnityEngine.Random.Range(-1, 1);
+        destinationHand = UnityEngine.Random.Range(0, 2) * 2 - 1;
 
         // get x position of hand (hand location +/- deviation)
         // this will make the look of the juggling more natural since the hands will not always be in the same place
-        destinationX = destinationHand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation); // convert to pixels
+        destinationX = (destinationHand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation)); // convert to pixels
 
         // save step size
-        xStep = 2*Math.Abs(destinationX - currentPos) / framesUntilIntercept;
-
-        // Debug.Log("Destination X: " + destinationX);
-        // Debug.Log("Throwing Hand: " + throwingHand + "\nDestination Hand: " + destinationHand);
-        // Debug.Log("X Step: " + xStep);
+        xStep = 2 * Math.Abs(destinationX - currentPos) / framesUntilIntercept;
 
         // get initial velocity
-        double initVel = (currentHeight - interceptHeight + 0.5 * gravity * Math.Pow(framesUntilIntercept, 2) ) / framesUntilIntercept;
+        double initVel =(currentHeight - interceptHeight + 0.5 * gravity * Math.Pow(framesUntilIntercept, 2) ) / framesUntilIntercept;
 
         // get maximum height of throw
-        maxHeight = Math.Pow(initVel, 2)/ (2 * gravity);
+        maxHeight = currentHeight + Math.Pow(initVel, 2)/ (2 * gravity);
 
-        // get y step size
-        yStep = 2*Math.Abs(maxHeight - currentHeight) / framesUntilIntercept;
+        // get y step size take the maximum vertical between the current height and the intercept height
+        yStep = currentHeight > interceptHeight ? Math.Abs(maxHeight - currentHeight) / framesUntilIntercept : Math.Abs(maxHeight - interceptHeight) / framesUntilIntercept;
+        
+        // double step size to account for going up and down
+        yStep *= 2;
+
+        // slow down time
+        xStep /= slowFactor;
+        yStep /= slowFactor;
 
         // update input
         lastInput = expectedInput;
@@ -176,5 +209,15 @@ public class JugglingObject : MonoBehaviour
 
         // update input display
         inputText.text = expectedInput.ToUpper();
+
+        // update physics if cheating
+        if( cheatMode )
+        {
+            rigidbody.constraints = RigidbodyConstraints.None; 
+            rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+
+            proximitySensor.constraints = RigidbodyConstraints.None;
+            proximitySensor.constraints = RigidbodyConstraints.FreezeRotation;
+        }
     }
 }

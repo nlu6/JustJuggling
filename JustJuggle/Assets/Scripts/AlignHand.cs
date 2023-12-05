@@ -69,13 +69,28 @@ public class AlignHand : MonoBehaviour {
         landingSpot.z = objectPosition.z;
 
         // define the maximum distance the hand can physically travel
-        if(landingSpot.x > 2.5f) {
+        // if left hand space is [0, 2] and right hand space is [-2, 0]
+        if( jugglingHand.name == "LeftHand" ) {
 
-            landingSpot.x = 2.5f;
+            if( landingSpot.x > 2 ) {
+
+                landingSpot.x = 2;
+            }
+            else if( landingSpot.x < 0 ) {
+
+                landingSpot.x = 0;
+            }
         }
-        if(landingSpot.x < -2.5f) {
+        else {
 
-            landingSpot.x = -2.5f;
+            if( landingSpot.x < -2 ) {
+
+                landingSpot.x = -2;
+            }
+            else if( landingSpot.x > 0 ) {
+
+                landingSpot.x = 0;
+            }
         }
 
         // move the hand to below the landing spot 
@@ -101,6 +116,7 @@ public class AlignHand : MonoBehaviour {
             rigidbody = gameObject.GetComponent<Rigidbody>();
 
             velocity = rigidbody.velocity.y;
+            int hand = jugglingObject.destinationHand;
 
             if(velocity < 0) { // check that the object is falling
 

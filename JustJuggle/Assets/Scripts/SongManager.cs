@@ -10,6 +10,7 @@ public class SongManager : MonoBehaviour
     public float pitchIncr = 0.05f;
     public float songStartDelay = 1f;
     public float songLoopDelay = 2f;
+    public int beatsSkipped = 1;
     
     [Header("Audio Information")]
     public AudioSource musicSource;
@@ -180,7 +181,7 @@ public class SongManager : MonoBehaviour
         {
             juggleTimes.Add(curTimestamp);
             numTStmps++;
-            curBeat++;
+            curBeat += beatsSkipped;
             curTimestamp = curBeat * secPerBeat + firstBeatOffset;
         }
     }
@@ -211,9 +212,12 @@ public class SongManager : MonoBehaviour
     // Returns next timestamp, as a float, that a juggling object should land in the hand
     public static double INTERCEPT_TIME()
     {
+        Debug.Log("Last assigned index: " + Script.lastAssignedIndex);
+        Debug.Log("Juggle times count: " + Script.juggleTimes.Count);
         double timeUntilIntercept = Script.juggleTimes[Script.lastAssignedIndex] - Script.songPosition;
 
-        Script.lastAssignedIndex++;
+        Script.lastAssignedIndex += 1;
+        Script.lastAssignedIndex %= Script.juggleTimes.Count;
 
         return timeUntilIntercept;
     }

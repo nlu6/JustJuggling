@@ -41,10 +41,11 @@ public class HandleCatch : MonoBehaviour
     public GameObject playerHand; 
     [Tooltip("List of all trigger objects in scene (found at runtime)")]
     public GameObject[] proximityObjects; 
+    [Tooltip("Most recent collided object")]
+    public List<GameObject> collidedObjects;
     [Tooltip("List of all juggling objects in scene (found at runtime)")]
     public GameObject[] jugglingObjects;
-    [Tooltip("Bonus object (i.e. extra popup inputs for player) also found at runtime")]
-    public TextMeshPro bonusObject; 
+    public bool foundJugglingObjects = false;
 
     [Header("Physics")]
     [Tooltip("Max distance between hand and object for catch to register")]
@@ -62,116 +63,119 @@ public class HandleCatch : MonoBehaviour
     [Tooltip("Actual input from player")]
     string playerInput = ""; 
 
-    void Start()
-    {
-        // get list of all juggling objects in scene
-        proximityObjects = GameObject.FindGameObjectsWithTag("Proximity");
-
-        // get list of all juggling objects in scene
-        jugglingObjects = GameObject.FindGameObjectsWithTag("JugglingObject");  
-    }
-
     // Update is called once per frame
-    void FixedUpdate()
-    { 
-        // Throwing object
-        // ===============
-        // check for collision with juggling object
-        Debug.Log(jugglingObjects.Length);
-        for( int objectIndex = 0; objectIndex < jugglingObjects.Length; objectIndex++ )
+    void Update()
+    {
+        if( foundJugglingObjects)
         {
-            // get juggling object
-            GameObject jugglingObject = jugglingObjects[objectIndex];
-
-            // get proximity sensor script
-            GameObject proximitySensor = proximityObjects[objectIndex];
-
-            bool isCollidingObject = proximitySensor.GetComponent<ProximitySensor>().objectNearHand;
-
-            Debug.Log("Object near hand ball: " + isCollidingObject + "Object near hand Hand: " + objectNearHand);
-            // check for trigger collision with juggling object
-            if( objectNearHand && isCollidingObject )
+            // Throwing object
+            // ===============
+            // check for collision with juggling object
+            for( int objectIndex = 0; objectIndex < jugglingObjects.Length; objectIndex++ )
             {
-                if( Input.anyKey )
+                // get juggling object
+                GameObject jugglingObject = jugglingObjects[objectIndex];
+
+                // get proximity sensor script
+                GameObject proximitySensor = proximityObjects[objectIndex];
+
+                // check for trigger collision with juggling object
+                if( collidedObjects.Contains(proximitySensor) )
+                {
+                    if( Input.anyKey )
+                    {
+                        // get player input
+                        playerInput = Input.inputString.ToUpper();
+                        Debug.Log("Detected input: " + playerInput);
+
+                        // get input juggling oject is expecting
+                        expectedInput = jugglingObject.GetComponent<JugglingObject>().expectedInput;
+                        Debug.Log("Expected input: " + expectedInput);
+
+                        // check if player input matches expected input
+                        if( playerInput == expectedInput)
+                        {
+                            Debug.Log("Correct input: " + playerInput);
+                            // get position of this hand
+                            UnityEngine.Vector3 handPos = playerHand.transform.position;
+
+                            // get position of juggling object
+                            UnityEngine.Vector3 objectPos = jugglingObject.transform.position;
+
+                            // update player score based on position of objects
+                            // function: updateScore
+                            UpdateScore( -1, handPos, objectPos );
+
+                            // reposistion juggling object to above hand (0.45 is ball radius plus hand radius)
+                            jugglingObject.transform.position = new UnityEngine.Vector3(handPos.x, handPos.y + 5f, handPos.z);
+
+                            // call for new input to throw object
+                            jugglingObject.GetComponent<JugglingObject>().UpdateInput();
+                        }
+                
+                    // reset player input
+                    playerInput = "";
+                    }
+                }
+
+                // if no collision with juggling object do nothing
+            }
+            
+            // Bonus Catch
+            // ===========
+            // check if bonus input is available
+            if( Camera.main.GetComponent<JustJugglingMain>().bonusActive )
+            {
+                // update frames since bonus input became available
+                framesSinceBonus++;
+
+                // if bonus input is available check for player input
+                if( Input.anyKeyDown && !objectNearHand )
                 {
                     // get player input
-                    playerInput = Input.inputString.ToUpper();
-                    Debug.Log("Detected input: " + playerInput);
+                    playerInput = Input.inputString;
 
-                    // get input juggling oject is expecting
-                    expectedInput = jugglingObject.GetComponent<JugglingObject>().expectedInput;
+                    // get expected bonus input (text value of TMP ojbect)
+                    expectedInput = Camera.main.GetComponent<JustJugglingMain>().bonusText;
 
                     // check if player input matches expected input
-                    if( playerInput == expectedInput)
+                    if( playerInput == expectedInput )
                     {
-                        Debug.Log("Correct input: " + playerInput);
-                        // get position of this hand
-                        UnityEngine.Vector3 handPos = playerHand.transform.position;
-
-                        // get position of juggling object
-                        UnityEngine.Vector3 objectPos = jugglingObject.transform.position;
-
-                        // update player score based on position of objects
+                        // update player score based on bonus
                         // function: updateScore
-                        UpdateScore( -1, handPos, objectPos );
+                        UpdateScore( framesSinceBonus );
 
-                        // reposistion juggling object to above hand (0.45 is ball radius plus hand radius)
-                        jugglingObject.transform.position = new UnityEngine.Vector3(handPos.x, (float)(handPos.y + 0.45), handPos.z);
-
-                        // call for new input to throw object
-                        jugglingObject.GetComponent<JugglingObject>().UpdateInput();
+                        // delete bonus object
+                        GenerateBonusInput.END_BONUS();
                     }
-                    // otherwise player input does not match expected input
-                    else
-                    {
-                        // load game over scene
-                        EndGame();
-                    }
-            
-                // reset player input
-                playerInput = "";
-                }
-             }
-
-            // if no collision with juggling object do nothing
-        }
-        
-        // Bonus Catch
-        // ===========
-        // check if bonus input is available
-        bonusObject = GetBonusObjects();
-
-        if( bonusObject != null )
-        {
-            // update frames since bonus input became available
-            framesSinceBonus++;
-
-            // if bonus input is available check for player input
-            if( Input.anyKeyDown && !objectNearHand )
-            {
-                // get player input
-                playerInput = Input.inputString;
-
-                // get expected bonus input (text value of TMP ojbect)
-                expectedInput = bonusObject.GetComponent<TextMeshPro>().text;
-
-                // check if player input matches expected input
-                if( playerInput == expectedInput )
-                {
-                    // update player score based on bonus
-                    // function: updateScore
-                    UpdateScore( framesSinceBonus );
-
-                    // delete bonus object
-                    Destroy(bonusObject);
                 }
             }
+            // otherwise bonus input is not available
+            else
+            {
+                // reset frames since bonus input became available
+                framesSinceBonus = 0;
+            }
         }
-        // otherwise bonus input is not available
         else
         {
-            // reset frames since bonus input became available
-            framesSinceBonus = 0;
+            // get expected number of objects
+            int expectedObjects = Camera.main.GetComponent<StartUp>().numObjects;
+
+            // get juggling objects
+            jugglingObjects = GameObject.FindGameObjectsWithTag("JugglingObject");
+
+            // get proximity sensors
+            proximityObjects = GameObject.FindGameObjectsWithTag("Proximity");
+
+            // check if all objects have been found
+            if( jugglingObjects.Length == expectedObjects && proximityObjects.Length == expectedObjects )
+            {
+                // set flag
+                foundJugglingObjects = true;
+
+                Debug.Log("Found all objects");
+            }
         }
     }
 
@@ -181,8 +185,10 @@ public class HandleCatch : MonoBehaviour
         if( other.gameObject.tag == "Proximity" )
         {
             Debug.Log("Object near hand");
+
             // lock out bonus input if object is near hand
             objectNearHand = true;
+            collidedObjects.Add(other.gameObject);
         }
         else
         {
@@ -196,8 +202,10 @@ public class HandleCatch : MonoBehaviour
         if( other.gameObject.tag == "Proximity" )
         {
             Debug.Log("Object no longer near hand");
+
             // allow bonus input if object is no longer near hand
             objectNearHand = false;
+            collidedObjects.Remove(other.gameObject);
         }
         else
         {
@@ -224,52 +232,26 @@ public class HandleCatch : MonoBehaviour
             int distance = (int)UnityEngine.Vector3.Distance(handPos, objectPos);
             float scoreMult = (float)maxCatchDistance - distance;
 
+            // update score based on distance
             JustJugglingMain.OBJ_HIT(scoreMult);
         }
 
         // otherwise hand and object positions are zero update based on bonus scoring
         else
         {
+            // random change
             // update score based on frames
-            int bonusMult = 1 + 1/framesSinceBonus;
+            float bonusMult = (float)(1 + 1/framesSinceBonus);
 
+            // update score based on bonus
             JustJugglingMain.OBJ_HIT(bonusMult);
         }
 
     }
 
-
-    // Check if bonus input is available
-    TextMeshPro GetBonusObjects()
-    {
-        // get all elements with tag "Bonus"
-        try
-        {
-            TextMeshPro[] bonusObjects = GameObject.FindWithTag("Bonus").GetComponentsInChildren<TextMeshPro>();GameObject.FindWithTag("Bonus");
-                
-            // return first bonus object found
-            if( bonusObjects.Length > 0 )
-            {
-                return bonusObjects[0];
-            }
-            else
-            {
-                return null;
-            }
-        }
-        catch( NullReferenceException )
-        {
-            return null;
-        }
-    }
-
     // End game
     void EndGame()
     {
-        // load game over scene over the course of 3 seconds
-        SceneManager.LoadSceneAsync("GameOver", LoadSceneMode.Additive);
-
-        // unload current scene
-        SceneManager.UnloadSceneAsync("Game");
+        JustJugglingMain.GAME_END();
     }
 }

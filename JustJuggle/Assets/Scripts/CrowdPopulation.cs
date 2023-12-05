@@ -5,7 +5,7 @@ using UnityEngine;
 public class CrowdPopulation : MonoBehaviour
 {
     public GameObject crowdPersonPrefab; // Reference to your crowd person prefab
-    public int personsPerStand = 300; // Number of crowd persons per stand
+    public int personsPerStand = 0; // Number of crowd persons per stand
     public float jumpHeight = 1.0f; // Maximum height of the jump
     public float jumpSpeed = 1.0f; // Speed of the jump animation
 

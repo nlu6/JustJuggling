@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 7128932109819231168}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 3.5, z: -1}
+  m_LocalPosition: {x: -1, y: 4, z: -1}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b9e9b1128b70f5843a2ccf42313f7b80, type: 2}
+  - {fileID: 2100000, guid: 6d44a921660965746aad5096a3e0f1bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102,17 +102,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jugglingObject: {fileID: 7128932109819231168}
   rigidbody: {fileID: -6813682943196025221}
+  proximitySensor: {fileID: 5758544877593204202}
   inputText: {fileID: 2289118692352864574}
   possibleInputs:
-  - a
-  - s
-  - d
-  - f
-  - g
+  - 1
+  - 2
+  - 3
+  - 4
   xDeviation: 0.25
   interceptHeight: 3.4
+  camViewHeight: 12
+  slowFactor: 3
+  cheatMode: 0
   expectedInput: 
-  throwingHand: 1
+  throwingHand: -1
   destinationHand: 0
   objectNearHand: 0
 --- !u!54 &-6813682943196025221
@@ -137,10 +140,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 126
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!135 &1225636804155544805
 SphereCollider:
@@ -149,7 +152,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7128932109819231168}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 05ffd0615262fff4483336fe41408f11, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -345,7 +348,6 @@ GameObject:
   - component: {fileID: 4835228129264137612}
   - component: {fileID: 7887701096998687543}
   - component: {fileID: 5758544877593204202}
-  - component: {fileID: 345225029712649872}
   m_Layer: 12
   m_Name: ProximitySensor
   m_TagString: Proximity
@@ -387,7 +389,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2
+  m_Radius: 2.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &5758544877593204202
 Rigidbody:
@@ -411,21 +413,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &345225029712649872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8494500013293274724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a95f50b55123034da2119a15846ff8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectNearHand: 1
