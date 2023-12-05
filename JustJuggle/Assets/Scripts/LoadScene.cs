@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Start_Screen : MonoBehaviour
+public class Load_Screen : MonoBehaviour
 {
     public void OnStartButtonClick()
     {
