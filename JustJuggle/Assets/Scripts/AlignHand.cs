@@ -74,17 +74,27 @@ public class AlignHand : MonoBehaviour {
 
         double objectHandDelta; // how far away the object is from the juggler's hand
         double timeUntilIntercept; // how long until the ball reaches the hand
-        Vector2 landingSpot; // the position on the xy plane where the object will land
+        Vector3 landingSpot; // the position on the xy plane where the object will land
 
         landingSpot.x = objectPosition.x;
-        landingSpot.y = objectPosition.y;
+        landingSpot.y = 3.4f;
+        landingSpot.z = objectPosition.z;
+
+        if(landingSpot.x > 2.5f) {
+
+            landingSpot.x = 2.5f;
+        }
+        if(landingSpot.x < -2.5f) {
+
+            landingSpot.x = -2.5f;
+        }
 
         objectHandDelta = objectPosition.z - jugglingHand.transform.position.z;
         timeUntilIntercept = objectHandDelta / objectDownwardVelocity;
 
         // move the hand to the landing spot over the time until the intercept
-        jugglingHand.transform.position = 
-             Vector3.Lerp(handPosition, landingSpot, (float)timeUntilIntercept);
+        jugglingHand.transform.position = landingSpot;
+            //  Vector3.Lerp(handPosition, landingSpot, (float)timeUntilIntercept);
     }
 
     GameObject FindNearestFallingObject() {
