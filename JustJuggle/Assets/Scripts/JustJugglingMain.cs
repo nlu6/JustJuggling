@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class JustJugglingMain : MonoBehaviour
 {
@@ -29,10 +30,15 @@ public class JustJugglingMain : MonoBehaviour
     [Header("Dynamic")]
     public int playerScore;
     public int objJuggled;
+    public TMP_Text uitScore;
+    public TMP_Text uitJuggleCount;
 
     void Awake()
     {
         Script = this;
+
+        // call start up
+        //Start_Up.SPAWN_OBJECTS();
     }
     
     void Start()
@@ -53,7 +59,10 @@ public class JustJugglingMain : MonoBehaviour
     static public void OBJ_HIT( float scoreMult )
     {
         Script.playerScore += (int)(Script.scoreAdd * scoreMult);
+        Script.uitScore.text = "Score: " + Script.playerScore;
+        
         Script.objJuggled++;
+        Script.uitJuggleCount.text = "Objects Juggled: " + Script.objJuggled;
     }
     
     static public void GAME_END()
@@ -63,7 +72,10 @@ public class JustJugglingMain : MonoBehaviour
         // Update score
         PlayerPrefs.SetInt("Score", Script.playerScore);
 
-        // TODO: fade to end screen instead of jumping
-        SceneManager.LoadScene("GameOver_Screen");
+        // TODO: fade to end screen
+        SceneManager.LoadScene("EndScene");
+
+        // unload main scene
+        SceneManager.UnloadSceneAsync("MainScene");
     }
 }
