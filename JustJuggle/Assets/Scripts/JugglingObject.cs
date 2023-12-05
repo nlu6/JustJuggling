@@ -28,6 +28,7 @@ public class JugglingObject : MonoBehaviour
     [Tooltip("Input expected from juggling object, changes every throw")]
     public String expectedInput = "";
     public int throwingHand = 0;
+    public int destinationHand = 0; // -1 for right, 1 for left
     private String lastInput = "";
     private double destinationX = 0;
     private double gravity = 0;
@@ -91,18 +92,11 @@ public class JugglingObject : MonoBehaviour
         // ====================
         // get velocity in x direction
         double handX = destinationX;
-        double velocityX = (handX - objectX) / timeUntilIntercept;
-        Debug.Log(handX);
-        Debug.Log(objectX);
-        Debug.Log(timeUntilIntercept);
-        Debug.Log(velocityX);
+        double velocityX = (handX - objectX) / framesUntilIntercept;
 
         // get velocity in y direction
-        double velocityY = Math.Abs(interceptHeight - objectHeight) / timeUntilIntercept - 0.5 * gravity / timeUntilIntercept;
-        Debug.Log(interceptHeight);
-        Debug.Log(objectHeight);
-        Debug.Log(gravity);
-        Debug.Log(velocityY);
+        double currentVel = rigidbody.velocity.y;
+        double velocityY = currentVel - gravity * timeUntilIntercept;
 
         // get velocity in z (nothing we're planar )
         double velocityZ = 0;
@@ -147,6 +141,15 @@ public class JugglingObject : MonoBehaviour
 
         // log time intil intercept
         framesUntilIntercept = timeUntilIntercept * fixedFPS;
+
+        // get initial velocity
+        double initialY = jugglingObject.transform.position.y;
+
+        // calculate initial velocity
+        double initVel = (initialY - interceptHeight + 0.5 * gravity * Math.Pow(framesUntilIntercept, 2) ) / framesUntilIntercept;
+
+        // set velocity of juggling object
+        rigidbody.velocity = new Vector3(0, (float)initVel, 0);
     }
 
     // Update is called once per frame
