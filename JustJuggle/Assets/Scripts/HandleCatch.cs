@@ -114,6 +114,7 @@ public class HandleCatch : MonoBehaviour
                 if( playerInput == expectedInput)
                 {
                     Debug.Log("Correct input: " + playerInput);
+
                     // get position of this hand
                     UnityEngine.Vector3 handPos = playerHand.transform.position;
 
@@ -123,9 +124,9 @@ public class HandleCatch : MonoBehaviour
                     // update player score based on position of objects
                     // function: updateScore
                     UpdateScore( handPos, objectPos, false );
-
-                    // reposistion juggling object to above hand (0.45 is ball radius plus hand radius)
-                    jugglingObject.transform.position = new UnityEngine.Vector3(handPos.x, handPos.y + 1.5f, handPos.z);
+                    
+                    // reset object to hand position
+                    jugglingObject.GetComponent<JugglingObject>().ResetThrow( playerHand.transform.position );
 
                     // call for new input to throw object
                     jugglingObject.GetComponent<JugglingObject>().UpdateInput();

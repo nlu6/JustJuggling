@@ -212,8 +212,8 @@ public class SongManager : MonoBehaviour
     // Returns next timestamp, as a float, that a juggling object should land in the hand
     public static double INTERCEPT_TIME()
     {
-        Debug.Log("Last assigned index: " + Script.lastAssignedIndex);
-        Debug.Log("Juggle times count: " + Script.juggleTimes.Count);
+        // Debug.Log("Last assigned index: " + Script.lastAssignedIndex);
+        // Debug.Log("Juggle times count: " + Script.juggleTimes.Count);
         double timeUntilIntercept = Script.juggleTimes[Script.lastAssignedIndex] - Script.songPosition;
 
         Script.lastAssignedIndex += 1;

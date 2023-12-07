@@ -58,7 +58,7 @@ public class StartUp : MonoBehaviour
 
             // spawn object in either hand (-1 or 1 in x axis)
             GameObject obj = Instantiate(jugglingObject, new Vector3(hand, 4f, -1), Quaternion.identity);
-            jugglingObject.transform.position = new Vector3(hand, 4f, -1);
+            jugglingObject.GetComponent<JugglingObject>().ResetThrow( obj.transform.position );
 
             // get next material
             jugglingObject.GetComponent<Renderer>().material = materials[i % materials.Length];
