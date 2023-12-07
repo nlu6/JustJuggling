@@ -60,9 +60,6 @@ public class JustJugglingMain : MonoBehaviour
     // check HandleCatch.UpdateScore for muliplier calculations
     static public void OBJ_HIT( float scoreMult )
     {
-        // Debug.Log("socre mult: " + scoreMult);
-        // Debug.Log("score add: " + Script.scoreAdd); 
-        // Debug.Log("score: " + Script.playerScore);
         Script.playerScore += (int)(Script.scoreAdd * (1 + scoreMult));
         Script.uitScore.text = "Score: " + Script.playerScore;
         

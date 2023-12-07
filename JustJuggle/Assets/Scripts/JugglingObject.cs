@@ -50,9 +50,6 @@ public class JugglingObject : MonoBehaviour
     private Vector3 oldPosition = new Vector3(0, 0, 0);
     private bool throwing = false;
 
-
-
-
     [Header("Static")]
     [Tooltip("JugglingObject script")]
     public static JugglingObject Script;
@@ -60,7 +57,6 @@ public class JugglingObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Cheats: " + cheatMode);
         // get dpi
         dpi = Screen.dpi;
 
@@ -127,7 +123,7 @@ public class JugglingObject : MonoBehaviour
 
 
         // cheat mode for debugging, freezes object near hand
-        if( cheatMode && (Math.Abs(objectHeight - interceptHeight) < 0.1 
+        if( cheatMode && downwardTrajectory && (Math.Abs(objectHeight - interceptHeight) < 0.1 
                         || objectHeight < interceptHeight ) )
         {
             jugglingObject.transform.position = new Vector3(objectX, (float)interceptHeight/dpi, -1);
@@ -141,7 +137,7 @@ public class JugglingObject : MonoBehaviour
             proximitySensor.useGravity = false;
         }
 
-        if( cheatMode && Math.Abs(objectX - destinationX) < 0.1 )
+        if( cheatMode && downwardTrajectory && Math.Abs(objectX - destinationX) < 0.1 )
         {
             xStep = 0;
 
@@ -169,7 +165,7 @@ public class JugglingObject : MonoBehaviour
         framesUntilIntercept = timeUntilIntercept * fixedFPS;
 
         // get current position of juggling object
-        double currentPos = jugglingObject.transform.position.x;
+        double currentPos = jugglingObject.transform.position.x * dpi;
         double currentHeight = jugglingObject.transform.position.y * dpi;
 
         // set throwing hand
@@ -213,11 +209,10 @@ public class JugglingObject : MonoBehaviour
 
         // get x position of hand (hand location +/- deviation)
         // this will make the look of the juggling more natural since the hands will not always be in the same place
-        destinationX = (destinationHand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation)); // convert to pixels
+        destinationX = (destinationHand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation)) * dpi; // convert to pixels
 
         // save step size
-        xStep = 2 * Math.Abs(destinationX - currentPos) / framesUntilIntercept;
-
+        xStep = Math.Abs(destinationX - currentPos) / framesUntilIntercept;
 
         // slow down time
         xStep /= slowFactor;

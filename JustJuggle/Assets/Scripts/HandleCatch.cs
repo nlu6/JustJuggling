@@ -35,9 +35,7 @@ public class HandleCatch : MonoBehaviour
 
     [Tooltip("Player hand attached to this script")]
     public GameObject playerHand; 
-    [Tooltip("List of all trigger objects in scene (found at runtime)")]
-    public GameObject[] proximityObjects; 
-    [Tooltip("Most recent collided object")]
+    [Tooltip("Current juggling object colliding with hand")]
     public List<GameObject> collidedObjects;
     [Tooltip("List of all juggling objects in scene (found at runtime)")]
     public GameObject[] jugglingObjects;
@@ -68,7 +66,7 @@ public class HandleCatch : MonoBehaviour
             if( Input.anyKey )
             {
                 string tempInput = Input.inputString.ToUpper();
-                if( tempInput != ""  && tempInput != playerInput )
+                if( tempInput != "" )
                 {
                     playerInput = tempInput;
                     
@@ -89,22 +87,17 @@ public class HandleCatch : MonoBehaviour
         // Throwing object
         // ===============
         // check for collision with juggling object
-        for( int objectIndex = 0; objectIndex < jugglingObjects.Length; objectIndex++ )
+        foreach( GameObject jugglingObject in jugglingObjects )
         {
-            // get juggling object
-            GameObject jugglingObject = jugglingObjects[objectIndex];
-
             // if the object is going upwards ignore it
             if( jugglingObject.GetComponent<JugglingObject>().downwardTrajectory == false )
             {
                 continue;
+                Debug.Log("Object is going upwards");
             }
 
-            // otherwise check for collision with juggling object
-            GameObject proximitySensor = proximityObjects[objectIndex];
-
             // check for trigger collision with juggling object
-            if( objectNearHand && collidedObjects.Contains(proximitySensor) )
+            if( objectNearHand && collidedObjects.Contains(jugglingObject) )
             {
                 // get input juggling oject is expecting
                 expectedInput = jugglingObject.GetComponent<JugglingObject>().expectedInput;
@@ -113,8 +106,6 @@ public class HandleCatch : MonoBehaviour
                 // check if player input matches expected input
                 if( playerInput == expectedInput)
                 {
-                    Debug.Log("Correct input: " + playerInput);
-
                     // get position of this hand
                     UnityEngine.Vector3 handPos = playerHand.transform.position;
 
@@ -153,11 +144,8 @@ public class HandleCatch : MonoBehaviour
         // get juggling objects
         jugglingObjects = GameObject.FindGameObjectsWithTag("JugglingObject");
 
-        // get proximity sensors
-        proximityObjects = GameObject.FindGameObjectsWithTag("Proximity");
-
         // check if all objects have been found
-        if( jugglingObjects.Length == expectedObjects && proximityObjects.Length == expectedObjects )
+        if( jugglingObjects.Length == expectedObjects )
         {
             // set flag
             foundJugglingObjects = true;
@@ -171,11 +159,11 @@ public class HandleCatch : MonoBehaviour
         // check if object is juggling object
         if( other.gameObject.tag == "Proximity" )
         {
-            // Debug.Log("Object near hand");
+            Debug.Log("Object near hand");
 
             // lock out bonus input if object is near hand
             objectNearHand = true;
-            collidedObjects.Add(other.gameObject);
+            collidedObjects.Add(other.gameObject.transform.parent.gameObject);
             // Debug.Log("Collided Objects List: " + collidedObjects.Count);
         }
         else
@@ -193,7 +181,10 @@ public class HandleCatch : MonoBehaviour
 
             // allow bonus input if object is no longer near hand
             objectNearHand = false;
-            collidedObjects.Remove(other.gameObject);
+
+            // remove object from collided objects list
+            collidedObjects.Remove(other.gameObject.transform.parent.gameObject);
+
             //Debug.Log("Collided Objects List: " + collidedObjects.Count);
         }
         else
