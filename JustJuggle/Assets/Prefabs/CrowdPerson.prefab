@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5620123994423503120}
   - component: {fileID: 983388291605887734}
   - component: {fileID: 849179813572462003}
-  - component: {fileID: 7067360891048652604}
   m_Layer: 0
   m_Name: CrowdPerson
   m_TagString: Untagged
@@ -121,23 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb9b4a9a03e48240bcc0f80d30ce0ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7067360891048652604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119901519785913002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cbb127b268cac14f817a860f498feb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bonusText: {fileID: 5933314733971986976}
-  bonusChance: 0.1
-  bonusPersonChance: 0
-  isBonusPerson: 0
-  bonusDuration: 5
 --- !u!1 &1483983943786258998
 GameObject:
   m_ObjectHideFlags: 0

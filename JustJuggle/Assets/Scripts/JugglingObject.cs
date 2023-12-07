@@ -40,7 +40,7 @@ public class JugglingObject : MonoBehaviour
     public int destinationHand = 0; // -1 for right, 1 for left
     private String lastInput = "";
     public bool objectNearHand = false;
-    private double destinationX = 0;
+    public double destinationX = 0;
     private double gravity = 0;
     private double framesUntilIntercept = 0;
     private double timeUntilIntercept = 0;
@@ -120,6 +120,10 @@ public class JugglingObject : MonoBehaviour
             yStep = -yStep;
             downwardTrajectory = true;
         }
+        // else
+        // {
+        //     downwardTrajectory = false;
+        // }
 
 
         // cheat mode for debugging, freezes object near hand
