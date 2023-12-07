@@ -173,7 +173,7 @@ public class JugglingObject : MonoBehaviour
         framesUntilIntercept = timeUntilIntercept * fixedFPS;
 
         // get current position of juggling object
-        double currentPos = jugglingObject.transform.position.x;
+        double currentPos = jugglingObject.transform.position.x * dpi;
         double currentHeight = jugglingObject.transform.position.y * dpi;
 
         // set throwing hand
@@ -217,10 +217,10 @@ public class JugglingObject : MonoBehaviour
 
         // get x position of hand (hand location +/- deviation)
         // this will make the look of the juggling more natural since the hands will not always be in the same place
-        destinationX = (destinationHand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation)); // convert to pixels
+        destinationX = (destinationHand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation)) * dpi; // convert to pixels
 
         // save step size
-        xStep = 6 * Math.Abs(destinationX - currentPos) / framesUntilIntercept;
+        xStep = Math.Abs(destinationX - currentPos) / framesUntilIntercept;
 
 
         // slow down time
