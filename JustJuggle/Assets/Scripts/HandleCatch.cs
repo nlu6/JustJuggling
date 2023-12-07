@@ -74,7 +74,8 @@ public class HandleCatch : MonoBehaviour
                     
                     Debug.Log("Detected input: " + playerInput);
 
-                    CheckForObjectThrow();                }
+                    CheckForObjectThrow();
+                }
             }
         }
         else
@@ -94,7 +95,7 @@ public class HandleCatch : MonoBehaviour
             GameObject jugglingObject = jugglingObjects[objectIndex];
 
             // if the object is going upwards ignore it
-            if( jugglingObject.GetComponent<jugglingObject>().downwardTrajectory == false )
+            if( jugglingObject.GetComponent<JugglingObject>().downwardTrajectory == false )
             {
                 continue;
             }
