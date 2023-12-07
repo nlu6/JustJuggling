@@ -47,6 +47,8 @@ public class JugglingObject : MonoBehaviour
     private double xStep = 0;
     private double yStep = 0;
     private double maxHeight = 0;
+    private Vector3 oldPosition = new Vector3(0, 0, 0);
+    private bool throwing = false;
 
 
 
@@ -91,7 +93,7 @@ public class JugglingObject : MonoBehaviour
     // listen for space input
     void FixedUpdate()
     {
-        if( lastInput == expectedInput )
+        if( throwing )
         {
             // we are still in same trajectory update velocity
             MoveObject();
@@ -155,7 +157,9 @@ public class JugglingObject : MonoBehaviour
         }
 
         // update position
-        jugglingObject.transform.position = jugglingObject.transform.position + new Vector3((float)xStep, (float)yStep, 0);
+        Vector3 step = new Vector3((float)xStep, (float)yStep, 0);
+        jugglingObject.transform.position = oldPosition + step;
+        oldPosition = jugglingObject.transform.position;
     }
 
     // Update destination
@@ -182,16 +186,7 @@ public class JugglingObject : MonoBehaviour
             throwingHand = 1;
         }
 
-        // randomly decide left or right hand (-1 or 1) to go to
-        destinationHand = UnityEngine.Random.Range(0, 2) * 2 - 1;
-
-        // get x position of hand (hand location +/- deviation)
-        // this will make the look of the juggling more natural since the hands will not always be in the same place
-        destinationX = (destinationHand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation)); // convert to pixels
-
-        // save step size
-        xStep = 2 * Math.Abs(destinationX - currentPos) / framesUntilIntercept;
-
+        // get Y value (projectile motion)
         // get initial velocity
         double initVel =(currentHeight - interceptHeight + 0.5 * gravity * Math.Pow(framesUntilIntercept, 2) ) / framesUntilIntercept;
 
@@ -202,6 +197,12 @@ public class JugglingObject : MonoBehaviour
         if( maxHeight > throwHeightLimit * dpi )
         {
             maxHeight = UnityEngine.Random.Range(throwHeightLimit - 3, throwHeightLimit) * dpi;
+            
+            // backsolve for initial velocity
+            initVel = Math.Sqrt(2 * gravity * (maxHeight - currentHeight));
+
+            // backsolve for frames until intercept (positive of quadratic formula)
+            framesUntilIntercept = (initVel + Math.Sqrt(Math.Pow(-initVel, 2) - 2 * gravity * (currentHeight - interceptHeight))) / gravity;
         }
 
         // get y step size take the maximum vertical between the current height and the intercept height
@@ -210,12 +211,30 @@ public class JugglingObject : MonoBehaviour
         // double step size to account for going up and down
         yStep *= 2;
 
+        // get X value (simple time vs distance)
+        // randomly decide left or right hand (-1 or 1) to go to
+        destinationHand = UnityEngine.Random.Range(0, 2) * 2 - 1;
+
+        // get x position of hand (hand location +/- deviation)
+        // this will make the look of the juggling more natural since the hands will not always be in the same place
+        destinationX = (destinationHand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation)); // convert to pixels
+
+        // save step size
+        xStep = 2 * Math.Abs(destinationX - currentPos) / framesUntilIntercept;
+
+
         // slow down time
         xStep /= slowFactor;
         yStep /= slowFactor;
 
         // update input
         lastInput = expectedInput;
+
+        // update position
+        oldPosition = jugglingObject.transform.position;
+        
+        // throw
+        throwing = true;
     }
 
     // Update is called once per frame
@@ -238,5 +257,20 @@ public class JugglingObject : MonoBehaviour
             proximitySensor.constraints = RigidbodyConstraints.None;
             proximitySensor.constraints = RigidbodyConstraints.FreezeRotation;
         }
+    }
+
+    // Stop moving if requested by hand
+    public void ResetThrow( Vector3 handPosition )
+    {
+        // stop moving
+        xStep = 0;
+        yStep = 0;
+
+        // update position
+        oldPosition = handPosition + new Vector3(0, 0.5f, 0);
+
+        // throw again
+        downwardTrajectory = false;
+        throwing = false;
     }
 }
