@@ -57,7 +57,7 @@ public class StartUp : MonoBehaviour
             yield return new WaitForSeconds(spawnInterval);
 
             // spawn object in either hand (-1 or 1 in x axis)
-            GameObject obj = Instantiate(jugglingObject, new Vector3(hand, 4f, 0), Quaternion.identity);
+            GameObject obj = Instantiate(jugglingObject, new Vector3(hand, 4f, -1), Quaternion.identity);
             jugglingObject.transform.position = new Vector3(hand, 4f, -1);
 
             // get next material
