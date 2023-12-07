@@ -220,7 +220,7 @@ public class JugglingObject : MonoBehaviour
         destinationX = (destinationHand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation)); // convert to pixels
 
         // save step size
-        xStep = 2 * Math.Abs(destinationX - currentPos) / framesUntilIntercept;
+        xStep = 6 * Math.Abs(destinationX - currentPos) / framesUntilIntercept;
 
 
         // slow down time
