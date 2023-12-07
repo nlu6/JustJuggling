@@ -1307,7 +1307,7 @@ MonoBehaviour:
   jugglingObject: {fileID: 7128932109819231168, guid: 79a274a5cea3944519cfe540f5cf1641, type: 3}
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
-  numObjects: 1
+  numObjects: 5
   hand: -1
   spawnInterval: 1
   materials:
