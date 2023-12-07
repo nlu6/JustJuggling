@@ -14,7 +14,6 @@
  *              Player Score Value,
  *              etc.
  */
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -89,11 +88,10 @@ public class HandleCatch : MonoBehaviour
         // check for collision with juggling object
         foreach( GameObject jugglingObject in jugglingObjects )
         {
-            // if the object is going upwards ignore it
+            // if the object is going upwards ignore it for speed
             if( jugglingObject.GetComponent<JugglingObject>().downwardTrajectory == false )
             {
                 continue;
-                Debug.Log("Object is going upwards");
             }
 
             // check for trigger collision with juggling object

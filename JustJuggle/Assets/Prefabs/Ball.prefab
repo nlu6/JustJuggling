@@ -112,14 +112,15 @@ MonoBehaviour:
   xDeviation: 0.25
   interceptHeight: 3.4
   camViewHeight: 12
-  slowFactor: 3
-  cheatMode: 0
+  slowFactor: 0.5
+  cheatMode: 1
   throwHeightLimit: 16
   expectedInput: 
   downwardTrajectory: 0
   throwingHand: -1
   destinationHand: 0
   objectNearHand: 0
+  destinationX: 0
 --- !u!54 &-6813682943196025221
 Rigidbody:
   m_ObjectHideFlags: 0

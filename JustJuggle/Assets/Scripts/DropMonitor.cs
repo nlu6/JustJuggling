@@ -20,7 +20,7 @@ public class DropMonitor : MonoBehaviour
     {
         if (collision.gameObject.tag == "JugglingObject")
         {
-            //JustJugglingMain.GAME_END();
+            JustJugglingMain.GAME_END();
         }
     }
 }

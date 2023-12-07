@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
@@ -12,6 +11,7 @@ public class NumberDisplay : MonoBehaviour
     public TMP_Text UI_Text;
     private int randomNumber;
     private bool displayingNumber = false;
+    List<int> possibleNumbers = new List<int> { 6, 7, 8, 9, 0 };
 
     void Start()
     {
@@ -35,8 +35,8 @@ public class NumberDisplay : MonoBehaviour
     {
         displayingNumber = true;
 
-        // Generate a random number between 1 and 6
-        randomNumber = Random.Range(1, 7);
+        // Generate a random number in 6, 7, 8, 9, 0
+        randomNumber = possibleNumbers[Random.Range(0, possibleNumbers.Count)];
         BonusInput.text = randomNumber.ToString();
 
         // Wait for 5 seconds

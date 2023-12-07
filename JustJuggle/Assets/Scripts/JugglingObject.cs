@@ -18,7 +18,6 @@ public class JugglingObject : MonoBehaviour
     [Header("Inscribed")]
     [Tooltip("Juggling Object")]
     public GameObject jugglingObject;
-    public new Rigidbody rigidbody;
     public Rigidbody proximitySensor;
     public TextMeshPro inputText = null;
     public String[] possibleInputs = {"A", "S", "D", "F"};
@@ -31,6 +30,7 @@ public class JugglingObject : MonoBehaviour
     [Tooltip("Cheat mode for debugging")]
     public bool cheatMode = false;
     public float throwHeightLimit = 16;
+    private new Rigidbody rigidbody;
 
     [Header("Dynamic")]
     [Tooltip("Input expected from juggling object, changes every throw")]
