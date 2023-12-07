@@ -30,10 +30,12 @@ public class JugglingObject : MonoBehaviour
     private float dpi = 96;
     [Tooltip("Cheat mode for debugging")]
     public bool cheatMode = false;
+    public float throwHeightLimit = 16;
 
     [Header("Dynamic")]
     [Tooltip("Input expected from juggling object, changes every throw")]
     public String expectedInput = "";
+    public bool downwardTrajectory = true;
     public int throwingHand = 0;
     public int destinationHand = 0; // -1 for right, 1 for left
     private String lastInput = "";
@@ -59,6 +61,12 @@ public class JugglingObject : MonoBehaviour
         Debug.Log("Cheats: " + cheatMode);
         // get dpi
         dpi = Screen.dpi;
+
+        // if dpi is not found, set to default
+        if( dpi == 0 )
+        {
+            dpi = 96;
+        }
         
         // conver dpi from in to m
         dpi /= (float)39.37;
@@ -112,6 +120,11 @@ public class JugglingObject : MonoBehaviour
         if( objectHeight >= maxHeight )
         {
             yStep = -yStep;
+            downwardTrajectory = true;
+        }
+        else
+        {
+            downwardTrajectory = false;
         }
 
 
@@ -184,6 +197,12 @@ public class JugglingObject : MonoBehaviour
 
         // get maximum height of throw
         maxHeight = currentHeight + Math.Pow(initVel, 2)/ (2 * gravity);
+
+        // correction for playability, if max height is greater than 16, set it to 13-16 randomly
+        if( maxHeight > throwHeightLimit * dpi )
+        {
+            maxHeight = UnityEngine.Random.Range(throwHeightLimit - 3, throwHeightLimit) * dpi;
+        }
 
         // get y step size take the maximum vertical between the current height and the intercept height
         yStep = currentHeight > interceptHeight ? Math.Abs(maxHeight - currentHeight) / framesUntilIntercept : Math.Abs(maxHeight - interceptHeight) / framesUntilIntercept;

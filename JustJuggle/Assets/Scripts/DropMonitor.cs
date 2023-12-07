@@ -18,10 +18,9 @@ public class DropMonitor : MonoBehaviour
 {
     public void OnCollisionEnter(Collision collision)
     {
-        // Debug.Log("Collision detected");
         if (collision.gameObject.tag == "JugglingObject")
         {
-            JustJugglingMain.GAME_END();
+            //JustJugglingMain.GAME_END();
         }
     }
 }
