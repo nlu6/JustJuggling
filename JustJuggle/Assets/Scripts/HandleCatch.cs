@@ -28,9 +28,6 @@ public class HandleCatch : MonoBehaviour
 {
     // public variables
     [Header("Scoring")]
-
-    [Tooltip("Player score")]
-    int framesSinceBonus = 0; 
     [Tooltip("Flag for if object has been thrown (used to prevent catching object and getting bonus input at same time)")]
     public bool objectNearHand = false;
 
@@ -77,10 +74,7 @@ public class HandleCatch : MonoBehaviour
                     
                     Debug.Log("Detected input: " + playerInput);
 
-                    CheckForObjectThrow();
-
-                    CheckForBonusInput();
-                }
+                    CheckForObjectThrow();                }
             }
         }
         else
@@ -127,7 +121,7 @@ public class HandleCatch : MonoBehaviour
 
                     // update player score based on position of objects
                     // function: updateScore
-                    UpdateScore( -1, handPos, objectPos );
+                    UpdateScore( handPos, objectPos, false );
 
                     // reposistion juggling object to above hand (0.45 is ball radius plus hand radius)
                     jugglingObject.transform.position = new UnityEngine.Vector3(handPos.x, handPos.y + 1.5f, handPos.z);
@@ -135,50 +129,17 @@ public class HandleCatch : MonoBehaviour
                     // call for new input to throw object
                     jugglingObject.GetComponent<JugglingObject>().UpdateInput();
                 }
+                // otherwise subtract score to punish player
+                else
+                {
+                    UpdateScore( playerHand.transform.position, jugglingObject.transform.position, true );
+                }
+
         
                 // reset player input
                 playerInput = "";
             }
             // if no collision with juggling object do nothing
-        }
-    }
-
-    void CheckForBonusInput()
-    {       
-        // Bonus Catch
-        // ===========
-        // check if bonus input is available
-        if( Camera.main.GetComponent<JustJugglingMain>().bonusActive )
-        {
-            // update frames since bonus input became available
-            framesSinceBonus++;
-
-            // if bonus input is available check for player input
-            if( Input.anyKeyDown && !objectNearHand )
-            {
-                // get player input
-                playerInput = Input.inputString;
-
-                // get expected bonus input (text value of TMP ojbect)
-                expectedInput = Camera.main.GetComponent<JustJugglingMain>().bonusText;
-
-                // check if player input matches expected input
-                if( playerInput == expectedInput )
-                {
-                    // update player score based on bonus
-                    // function: updateScore
-                    UpdateScore( framesSinceBonus );
-
-                    // delete bonus object
-                    GenerateBonusInput.END_BONUS();
-                }
-            }
-        }
-        // otherwise bonus input is not available
-        else
-        {
-            // reset frames since bonus input became available
-            framesSinceBonus = 0;
         }
     }
 
@@ -240,39 +201,20 @@ public class HandleCatch : MonoBehaviour
     }
 
     // Update player score
-    void UpdateScore( int framesSinceBonus = -1, UnityEngine.Vector3 handPos = default, UnityEngine.Vector3 objectPos = default )
+    void UpdateScore( UnityEngine.Vector3 handPos = default, UnityEngine.Vector3 objectPos = default, bool wrongInput = false )
     {
-        // if all values are default values, or if all values are not default values log warning, skip score update
-        if( (framesSinceBonus == -1 && handPos == default && objectPos == default) 
-            || (framesSinceBonus != -1 && (handPos != default|| objectPos != default))
-            || (handPos != default && objectPos == default) || (handPos == default && objectPos != default) )
+        // get distance between hand and object
+        int distance = (int)UnityEngine.Vector3.Distance(handPos, objectPos);
+        float scoreMult = (float)maxCatchDistance - distance;
+
+        // if input is wrong subtract score instead of adding
+        if( wrongInput )
         {
-            Debug.LogWarning("updateScore called with Bonus frames: "+ framesSinceBonus + "\nHand: " + handPos +"\nObject: "+ objectPos
-                    + "\nExpected either bonus frames or cordinates to be default values (not both), no score update will occur.");
+            scoreMult *= -1;
         }
 
-        // else if bonus frames is -1 update based on normal scoring
-        else if( framesSinceBonus == -1 )
-        {
-            // get distance between hand and object
-            int distance = (int)UnityEngine.Vector3.Distance(handPos, objectPos);
-            float scoreMult = (float)maxCatchDistance - distance;
-
-            // update score based on distance
-            JustJugglingMain.OBJ_HIT(Math.Abs(scoreMult));
-        }
-
-        // otherwise hand and object positions are zero update based on bonus scoring
-        else
-        {
-            // random change
-            // update score based on frames
-            float bonusMult = (float)(1 + 1/framesSinceBonus);
-
-            // update score based on bonus
-            JustJugglingMain.OBJ_HIT(bonusMult);
-        }
-
+        // update score based on distance
+        JustJugglingMain.OBJ_HIT(Math.Abs(scoreMult));
     }
 
     // End game
