@@ -25,7 +25,7 @@ public class JugglingObject : MonoBehaviour
     public double interceptHeight = 3.4;
     public int camViewHeight = 12;
     private const int fixedFPS = 50;
-    public float slowFactor = SlowFactorSlider.sFactor;
+    public float slowFactor = 3.5f;
     private float dpi = 96;
     [Tooltip("Cheat mode for debugging")]
     public bool cheatMode = false;
@@ -69,8 +69,16 @@ public class JugglingObject : MonoBehaviour
         // conver dpi from in to m
         dpi /= (float)39.37;
 
-        // update heigh
+        // update height
         interceptHeight *= dpi;
+
+        // get slow factor from user preferences
+        float tempSlowFactor = PlayerPrefs.GetFloat("SlowFactor");
+
+        if( tempSlowFactor >= 1 )
+        {
+            slowFactor = tempSlowFactor;
+        }
 
         // Get juggling object
         int inputIndex = UnityEngine.Random.Range(0, possibleInputs.Length);
@@ -223,8 +231,6 @@ public class JugglingObject : MonoBehaviour
 
         // update position
         oldPosition = jugglingObject.transform.position;
-
-        Debug.Log("Xstep: " + xStep );
         
         // throw
         throwing = true;

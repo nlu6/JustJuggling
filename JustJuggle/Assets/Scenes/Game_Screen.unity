@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 14.4, y: 137.53}
+  m_AnchoredPosition: {x: 14.4, y: 271.2}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &58410345
@@ -1249,7 +1249,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 87.5, y: 100.9}
+  m_AnchoredPosition: {x: 87.5, y: 232.52}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &706258577
@@ -1627,7 +1627,7 @@ MonoBehaviour:
   jugglingObject: {fileID: 7128932109819231168, guid: 79a274a5cea3944519cfe540f5cf1641, type: 3}
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
-  numObjects: 1
+  numObjects: 3
   hand: -1
   spawnInterval: 1
   materials:

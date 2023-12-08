@@ -28,7 +28,7 @@ public class StartUp : MonoBehaviour
     [Tooltip("Player Right Hand")]
     public GameObject rightHand;
     [Tooltip("The number of objects that will be juggled")]
-    public int numObjects = NumBallsSlider.numBalls;
+    public int numObjects = 3;
     [Tooltip("The hand that an object will start in")]
     public int hand = -1;
     [Tooltip("Spawn interval in seconds")]
@@ -39,6 +39,15 @@ public class StartUp : MonoBehaviour
     void Awake()
     {
         Script = this;
+
+        // get number of juggling objects from player prefs
+        int tempObjects = PlayerPrefs.GetInt("NumObjects");
+
+        if( tempObjects > 0 )
+        {
+            numObjects = tempObjects;
+        }
+
     }
 
     public static void SPAWN_OBJECTS()

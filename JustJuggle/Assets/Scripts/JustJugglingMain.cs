@@ -34,6 +34,8 @@ public class JustJugglingMain : MonoBehaviour
     public TMP_Text uitJuggleCount;
     public string bonusText = "";
     public bool bonusActive = false;
+    private int highScore;
+    private int highJuggles;
 
     void Awake()
     {
@@ -52,6 +54,11 @@ public class JustJugglingMain : MonoBehaviour
         
         // call start up
         StartUp.SPAWN_OBJECTS();
+
+        // get high score and high juggles from player prefs
+        highScore = PlayerPrefs.GetInt("HighScore");
+        highJuggles = PlayerPrefs.GetInt("HighJuggles");
+
     }
     
     // Score multiplier is based in here since it changes
@@ -75,6 +82,18 @@ public class JustJugglingMain : MonoBehaviour
         }
 
         Script.uitScore.text = "Score: " + Script.playerScore;
+
+        // update high score and high juggles
+        if( Script.playerScore > Script.highScore )
+        {
+            Script.highScore = Script.playerScore;
+            PlayerPrefs.SetInt("HighScore", Script.highScore);
+        }
+        if( Script.objJuggled > Script.highJuggles )
+        {
+            Script.highJuggles = Script.objJuggled;
+            PlayerPrefs.SetInt("HighJuggles", Script.highJuggles);
+        }
     }
     
     static public void GAME_END()

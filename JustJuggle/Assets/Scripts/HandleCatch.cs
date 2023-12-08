@@ -37,7 +37,7 @@ public class HandleCatch : MonoBehaviour
 
     [Header("Physics")]
     [Tooltip("Max distance between hand and object for catch to register")]
-    public double maxCatchDistance = 1.5;
+    public double maxCatchDistance = 1.75;
     public double interceptHeight = 3.5;
 
     public int leftHandX = 1;
@@ -112,21 +112,21 @@ public class HandleCatch : MonoBehaviour
                 // check if player input matches expected input
                 if( playerInput == expectedInput)
                 {
+                    // get position of juggling object
+                    UnityEngine.Vector3 objectPos = jugglingObject.transform.position;
+
                     // get position of this hand
                     UnityEngine.Vector3 handPos = playerHand.transform.position;
 
-                    // get position of juggling object
-                    UnityEngine.Vector3 objectPos = jugglingObject.transform.position;
+                    // reset object to hand position
+                    jugglingObject.GetComponent<JugglingObject>().ResetThrow( handPos );
+
+                    // call for new input to throw object
+                    jugglingObject.GetComponent<JugglingObject>().UpdateInput();
 
                     // update player score based on position of objects
                     // function: updateScore
                     UpdateScore( handPos, objectPos, false );
-                    
-                    // reset object to hand position
-                    jugglingObject.GetComponent<JugglingObject>().ResetThrow( playerHand.transform.position );
-
-                    // call for new input to throw object
-                    jugglingObject.GetComponent<JugglingObject>().UpdateInput();
                 }
                 // otherwise subtract score to punish player
                 else
