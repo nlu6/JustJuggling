@@ -1,6 +1,6 @@
 /*
- * Contributors: Nathan Underwood
- * Last Modified: Dec. 4, 2023
+ * Contributors: Nathan Underwood, Ian Dennis
+ * Last Modified: Dec. 6, 2023
  * 
  * Purpose: This script fetches the information from a falling object and moves
  * the juggler's hands to the correct position to catch the object. The hand

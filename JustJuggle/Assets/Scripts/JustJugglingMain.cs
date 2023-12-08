@@ -1,5 +1,5 @@
 /*
- * Contributors: Ian Dennis
+ * Contributors: Ian Dennis, Dalton Tippings, Jacob Shigeta
  * Last Modified: Oct. 24th, 2023
  * 
  * Purpose: Main script for the Just Juggling game. script handles

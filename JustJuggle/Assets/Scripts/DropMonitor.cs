@@ -1,6 +1,6 @@
 /*
- * Contributors:
- * Last Modified: Oct. 24th, 2023
+ * Contributors: Ian Dennis
+ * Last Modified: November 29th, 2023
  * 
  * Purpose: Checks if juggling object collides with stage
             Triggers end game if so

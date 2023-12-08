@@ -1,5 +1,5 @@
-/* Contributor: Jacob Shigeta
- * Date: November 3 2023
+/* Contributor: Ian Dennis
+ * Date: December 7th, 2023
  * 
  * Purpose: This script is going to show the next move of the juggling objects (i.e input)
  * 

@@ -1,6 +1,6 @@
 /*
- * Contributors:
- * Last Modified: Oct. 24th, 2023
+ * Contributors: Ian Dennis
+ * Last Modified: December 7th, 2023
  * 
  * Purpose: Start up script for the Just Juggling game. script handles
 *           the spawning of objects, and the start of the game.
