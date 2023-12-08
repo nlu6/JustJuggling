@@ -68,8 +68,6 @@ public class HandleCatch : MonoBehaviour
                 if( tempInput != "" )
                 {
                     playerInput = tempInput;
-                    
-                    Debug.Log("Detected input: " + playerInput);
 
                     CheckForObjectThrow();
                 }
@@ -99,7 +97,6 @@ public class HandleCatch : MonoBehaviour
             {
                 // get input juggling oject is expecting
                 expectedInput = jugglingObject.GetComponent<JugglingObject>().expectedInput;
-                Debug.Log("Expected input: " + expectedInput);
 
                 // check if player input matches expected input
                 if( playerInput == expectedInput)
@@ -147,8 +144,6 @@ public class HandleCatch : MonoBehaviour
         {
             // set flag
             foundJugglingObjects = true;
-
-            Debug.Log("Found all objects");
         }
     }
 
@@ -157,16 +152,10 @@ public class HandleCatch : MonoBehaviour
         // check if object is juggling object
         if( other.gameObject.tag == "Proximity" )
         {
-            Debug.Log("Object near hand");
 
             // lock out bonus input if object is near hand
             objectNearHand = true;
             collidedObjects.Add(other.gameObject.transform.parent.gameObject);
-            // Debug.Log("Collided Objects List: " + collidedObjects.Count);
-        }
-        else
-        {
-            // Debug.LogWarning("Object near hand but not juggling object");
         }
     }
 
@@ -175,19 +164,11 @@ public class HandleCatch : MonoBehaviour
         // check if object is juggling object
         if( other.gameObject.tag == "Proximity" )
         {
-            //Debug.Log("Object no longer near hand");
-
             // allow bonus input if object is no longer near hand
             objectNearHand = false;
 
             // remove object from collided objects list
             collidedObjects.Remove(other.gameObject.transform.parent.gameObject);
-
-            //Debug.Log("Collided Objects List: " + collidedObjects.Count);
-        }
-        else
-        {
-            //Debug.LogWarning("Object no longer near hand but not juggling object");
         }
     }
 

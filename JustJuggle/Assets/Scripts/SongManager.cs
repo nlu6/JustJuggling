@@ -95,10 +95,6 @@ public class SongManager : MonoBehaviour
         
             if (!jugglingEnd && songPosition >= nextTStmp)
             {
-                // Ball Test with timestamp
-                /*GameObject newBall = Instantiate(ballPrefab);
-                newBall.transform.position = new Vector3(0f, 5.8f, -2f);
-                Debug.Log(nextTStmp);*/
                 nextTStmpIndex++;
             
                 if (nextTStmpIndex == numTStmps)
@@ -212,8 +208,6 @@ public class SongManager : MonoBehaviour
     // Returns next timestamp, as a float, that a juggling object should land in the hand
     public static double INTERCEPT_TIME()
     {
-        // Debug.Log("Last assigned index: " + Script.lastAssignedIndex);
-        // Debug.Log("Juggle times count: " + Script.juggleTimes.Count);
         double timeUntilIntercept = Script.juggleTimes[Script.lastAssignedIndex] - Script.songPosition;
 
         Script.lastAssignedIndex += 1;

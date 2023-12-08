@@ -123,10 +123,6 @@ public class JugglingObject : MonoBehaviour
             yStep = -yStep;
             downwardTrajectory = true;
         }
-        // else
-        // {
-        //     downwardTrajectory = false;
-        // }
         
         // cheat mode for debugging, freezes object near hand
         if( cheatMode && downwardTrajectory && (Math.Abs(objectHeight - interceptHeight) < 0.1 
