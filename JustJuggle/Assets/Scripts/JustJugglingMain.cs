@@ -71,7 +71,6 @@ public class JustJugglingMain : MonoBehaviour
         // subtractive scoring for failed inputs
         else
         {
-            Debug.Log("Score Mult: " + scoreMult);
             Script.playerScore += (int)(Script.scoreAdd * scoreMult);
         }
 

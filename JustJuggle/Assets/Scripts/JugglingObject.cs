@@ -111,13 +111,9 @@ public class JugglingObject : MonoBehaviour
     public void MoveObject()
     {
         // get position of juggling object
-        float objectHeight = jugglingObject.transform.position.y*dpi;
         float objectX = jugglingObject.transform.position.x;
+        float objectHeight = jugglingObject.transform.position.y*dpi;
 
-        if( Math.Abs(objectX) >= Math.Abs(destinationX/dpi) )
-        {
-            xStep = 0;
-        }
         if( objectHeight >= maxHeight )
         {
             yStep = -yStep;
@@ -213,10 +209,10 @@ public class JugglingObject : MonoBehaviour
 
         // get x position of hand (hand location +/- deviation)
         // this will make the look of the juggling more natural since the hands will not always be in the same place
-        destinationX = (destinationHand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation)) * dpi; // convert to pixels
+        destinationX = (destinationHand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation)) * dpi;
 
         // save step size
-        xStep = destinationX - currentPos / framesUntilIntercept;
+        xStep = (destinationX - currentPos) / framesUntilIntercept;
 
         // slow down time
         xStep /= slowFactor;
@@ -227,6 +223,8 @@ public class JugglingObject : MonoBehaviour
 
         // update position
         oldPosition = jugglingObject.transform.position;
+
+        Debug.Log("Xstep: " + xStep );
         
         // throw
         throwing = true;

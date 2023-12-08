@@ -25,11 +25,6 @@ using System.Numerics;
 
 public class HandleCatch : MonoBehaviour
 {
-    // public variables
-    [Header("Scoring")]
-    [Tooltip("Flag for if object has been thrown (used to prevent catching object and getting bonus input at same time)")]
-    public bool objectNearHand = false;
-
     [Header("Objects")]
 
     [Tooltip("Player hand attached to this script")]
@@ -47,6 +42,7 @@ public class HandleCatch : MonoBehaviour
 
     public int leftHandX = 1;
     public int rightHandX = -1;
+    private int thisHandX = 0;
     public double xDeviation = 0.25;
 
     [Header("Inputs")]
@@ -55,6 +51,21 @@ public class HandleCatch : MonoBehaviour
     string expectedInput = ""; 
     [Tooltip("Actual input from player")]
     string playerInput = ""; 
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // get this hand's x position
+        if( playerHand.transform.position.x > 0 )
+        {
+            thisHandX = leftHandX;
+        }
+        else
+        {
+            thisHandX = rightHandX;
+        }
+        
+    }
 
     // Update is called once per frame
     void Update()
@@ -93,7 +104,7 @@ public class HandleCatch : MonoBehaviour
             }
 
             // check for trigger collision with juggling object
-            if( objectNearHand && collidedObjects.Contains(jugglingObject) )
+            if( collidedObjects.Contains(jugglingObject) )
             {
                 // get input juggling oject is expecting
                 expectedInput = jugglingObject.GetComponent<JugglingObject>().expectedInput;
@@ -149,27 +160,18 @@ public class HandleCatch : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // check if object is juggling object
-        if( other.gameObject.tag == "Proximity" )
+        // check if object is juggling object going to this hand
+        if( other.gameObject.tag == "Proximity" &&
+            other.gameObject.transform.parent.gameObject.GetComponent<JugglingObject>().destinationHand == thisHandX )
         {
-
-            // lock out bonus input if object is near hand
-            objectNearHand = true;
             collidedObjects.Add(other.gameObject.transform.parent.gameObject);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        // check if object is juggling object
-        if( other.gameObject.tag == "Proximity" )
-        {
-            // allow bonus input if object is no longer near hand
-            objectNearHand = false;
-
-            // remove object from collided objects list
-            collidedObjects.Remove(other.gameObject.transform.parent.gameObject);
-        }
+        // remove object from collided objects list
+        collidedObjects.Remove(other.gameObject.transform.parent.gameObject);
     }
 
     // Update player score
@@ -182,7 +184,6 @@ public class HandleCatch : MonoBehaviour
         // if input is wrong subtract score instead of adding
         if( wrongInput )
         {
-            Debug.Log("\t\tScore Mult: " + scoreMult);
             scoreMult = -scoreMult;
         }
 
