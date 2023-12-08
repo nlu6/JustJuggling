@@ -84,6 +84,9 @@ public class JugglingObject : MonoBehaviour
         // get initial time until intercept
         timeUntilIntercept = SongManager.INTERCEPT_TIME();
         framesUntilIntercept = timeUntilIntercept * fixedFPS;
+        
+        // assign rigidbody
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     // listen for space input
@@ -124,20 +127,21 @@ public class JugglingObject : MonoBehaviour
         // {
         //     downwardTrajectory = false;
         // }
-
-
+        
         // cheat mode for debugging, freezes object near hand
         if( cheatMode && downwardTrajectory && (Math.Abs(objectHeight - interceptHeight) < 0.1 
                         || objectHeight < interceptHeight ) )
         {
             jugglingObject.transform.position = new Vector3(objectX, (float)interceptHeight/dpi, -1);
+            
             yStep = 0;
-            rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
-            rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
+            
+            rigidbody.constraints = RigidbodyConstraints.FreezePositionY |
+                                    RigidbodyConstraints.FreezePositionZ;
             rigidbody.useGravity = false;
 
-            proximitySensor.constraints = RigidbodyConstraints.FreezePositionY;
-            proximitySensor.constraints = RigidbodyConstraints.FreezePositionZ;
+            proximitySensor.constraints = RigidbodyConstraints.FreezePositionY | 
+                                          RigidbodyConstraints.FreezePositionZ;
             proximitySensor.useGravity = false;
         }
 
@@ -145,11 +149,11 @@ public class JugglingObject : MonoBehaviour
         {
             xStep = 0;
 
-            rigidbody.constraints = RigidbodyConstraints.FreezePositionX;
-            rigidbody.constraints = RigidbodyConstraints.FreezePositionZ;
+            rigidbody.constraints = RigidbodyConstraints.FreezePositionX | 
+                                    RigidbodyConstraints.FreezePositionZ;
 
-            proximitySensor.constraints = RigidbodyConstraints.FreezePositionX;
-            proximitySensor.constraints = RigidbodyConstraints.FreezePositionZ;
+            proximitySensor.constraints = RigidbodyConstraints.FreezePositionX |
+                                          RigidbodyConstraints.FreezePositionZ;
         }
 
         // update position
@@ -246,11 +250,11 @@ public class JugglingObject : MonoBehaviour
         // update physics if cheating
         if( cheatMode )
         {
-            rigidbody.constraints = RigidbodyConstraints.None; 
-            rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+            rigidbody.constraints = RigidbodyConstraints.None | 
+                                    RigidbodyConstraints.FreezeRotation;
 
-            proximitySensor.constraints = RigidbodyConstraints.None;
-            proximitySensor.constraints = RigidbodyConstraints.FreezeRotation;
+            proximitySensor.constraints = RigidbodyConstraints.None |
+                                          RigidbodyConstraints.FreezeRotation;
         }
     }
 
