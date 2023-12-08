@@ -65,6 +65,9 @@ public class StartUp : MonoBehaviour
 
             // Let object know which hand it's in, it will throw itself
             jugglingObject.GetComponent<JugglingObject>().throwingHand = hand;
+
+            // switch hands
+            hand *= -1;
         }
     }
 }

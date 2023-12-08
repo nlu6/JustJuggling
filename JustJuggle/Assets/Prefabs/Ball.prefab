@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e08ffc91005e6e3478eec2fa1bcde249, type: 2}
+  - {fileID: 2100000, guid: 809774ea8d3b0494b98dfefb223ba681, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
   xDeviation: 0.25
   interceptHeight: 3.4
   camViewHeight: 12
-  slowFactor: 3
+  slowFactor: 6
   cheatMode: 1
   throwHeightLimit: 16
   expectedInput: 

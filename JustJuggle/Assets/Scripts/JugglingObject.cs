@@ -123,6 +123,12 @@ public class JugglingObject : MonoBehaviour
             yStep = -yStep;
             downwardTrajectory = true;
         }
+
+        // preventative measure to stop objects from gradually drifting sideways
+        if( Math.Abs(objectX - destinationX) < 0.1 * xDeviation * dpi )
+        {
+            xStep = 0;
+        }
         
         // cheat mode for debugging, freezes object near hand
         if( cheatMode && downwardTrajectory && (Math.Abs(objectHeight - interceptHeight) < 0.1 
@@ -209,7 +215,7 @@ public class JugglingObject : MonoBehaviour
 
         // get X value (simple time vs distance)
         // randomly decide left or right hand (-1 or 1) to go to
-        destinationHand = UnityEngine.Random.Range(0, 2) * 2 - 1;
+        destinationHand = GetHand();
 
         // get x position of hand (hand location +/- deviation)
         // this will make the look of the juggling more natural since the hands will not always be in the same place
@@ -267,5 +273,50 @@ public class JugglingObject : MonoBehaviour
         // throw again
         downwardTrajectory = false;
         throwing = false;
+    }
+
+    // Get hand to throw to
+    public int GetHand()
+    {
+        // get list of all jugglin objects
+        GameObject[] jugglingObjects = GameObject.FindGameObjectsWithTag("JugglingObject");
+
+        // get list of all hands from other juggling objects
+        List<int> leftHands = new List<int>();
+        List<int> rightHands = new List<int>();
+
+        foreach( GameObject jugglingObject in jugglingObjects )
+        {
+            // get throwing hand
+            int destinationHand = jugglingObject.GetComponent<JugglingObject>().destinationHand;
+
+            // add to list of hands
+            if( destinationHand == -1 )
+            {
+                leftHands.Add(destinationHand);
+            }
+            else
+            {
+                rightHands.Add(destinationHand);
+            }
+        }
+
+        // if more than 70% of objects are going to the same hand, go to the other hand
+        if( leftHands.Count > 0 && leftHands.Count > 0.7 * jugglingObjects.Length )
+        {
+            return 1;
+        }
+        else if( rightHands.Count > 0 && rightHands.Count > 0.7 * jugglingObjects.Length )
+        {
+            return -1;
+        }
+        
+        // otherwise randomly choose a hand
+        return UnityEngine.Random.Range(0, 2) * 2 - 1;
+    }
+
+    public int VerifyTiming()
+    {
+        
     }
 }
