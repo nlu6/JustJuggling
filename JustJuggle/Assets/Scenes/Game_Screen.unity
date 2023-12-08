@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657832, g: 0.49641222, b: 0.57481664, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 15.4, y: 267.53}
+  m_AnchoredPosition: {x: 14.4, y: 137.53}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &58410345
@@ -1249,7 +1249,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 88.5, y: 230.9}
+  m_AnchoredPosition: {x: 87.5, y: 100.9}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &706258577
@@ -1366,6 +1366,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ba35b33de3bb8469561b2f0a84328d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jugglingHand: {fileID: 0}
+  nearestObject: {fileID: 0}
+  player: {fileID: 0}
+  jugglingObjects: []
+  jugglingObject: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1622,7 +1627,7 @@ MonoBehaviour:
   jugglingObject: {fileID: 7128932109819231168, guid: 79a274a5cea3944519cfe540f5cf1641, type: 3}
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
-  numObjects: 5
+  numObjects: 1
   hand: -1
   spawnInterval: 1
   materials:
@@ -1649,7 +1654,7 @@ MonoBehaviour:
   camPositions:
   - {x: 0, y: 2.09, z: -10}
   - {x: 10, y: 5, z: -10}
-  - {x: 10, y: 10, z: 0}
+  - {x: -10, y: 10, z: -10}
   mainCam: {fileID: 0}
   camPosIndex: 0
   timeSinceSwitch: 0
@@ -2470,7 +2475,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '0
+  m_text: 'Objects Juggled: 0
 
 '
   m_isRightToLeft: 0
@@ -2788,7 +2793,7 @@ Transform:
   m_GameObject: {fileID: 1954191391}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.28, y: -3.97, z: -7.41}
+  m_LocalPosition: {x: 6.28, y: -4.25, z: -7.41}
   m_LocalScale: {x: 1.5, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -63,8 +63,11 @@ public class JustJugglingMain : MonoBehaviour
         Script.playerScore += (int)(Script.scoreAdd * (1 + scoreMult));
         Script.uitScore.text = "Score: " + Script.playerScore;
         
-        Script.objJuggled++;
-        Script.uitJuggleCount.text = "Objects Juggled: " + Script.objJuggled;
+        if (scoreMult > 0)
+        {
+            Script.objJuggled++;
+            Script.uitJuggleCount.text = "Objects Juggled: " + Script.objJuggled;
+        }
     }
     
     static public void GAME_END()
