@@ -27,8 +27,8 @@ public class StartUp : MonoBehaviour
     public GameObject leftHand;
     [Tooltip("Player Right Hand")]
     public GameObject rightHand;
-    [Tooltip("The number of objects that will be juggled")]    
-    public int numObjects;
+    [Tooltip("The number of objects that will be juggled")]
+    public int numObjects = NumBallsSlider.numBalls;
     [Tooltip("The hand that an object will start in")]
     public int hand = -1;
     [Tooltip("Spawn interval in seconds")]

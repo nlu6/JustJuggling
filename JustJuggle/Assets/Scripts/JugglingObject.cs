@@ -25,7 +25,7 @@ public class JugglingObject : MonoBehaviour
     public double interceptHeight = 3.4;
     public int camViewHeight = 12;
     private const int fixedFPS = 50;
-    public float slowFactor = 3;
+    public float slowFactor = SlowFactorSlider.sFactor;
     private float dpi = 96;
     [Tooltip("Cheat mode for debugging")]
     public bool cheatMode = false;
