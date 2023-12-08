@@ -173,20 +173,21 @@ public class HandleCatch : MonoBehaviour
     }
 
     // Update player score
-    void UpdateScore( UnityEngine.Vector3 handPos = default, UnityEngine.Vector3 objectPos = default, bool wrongInput = false )
+    void UpdateScore( UnityEngine.Vector3 handPos, UnityEngine.Vector3 objectPos, bool wrongInput )
     {
         // get distance between hand and object
-        int distance = (int)UnityEngine.Vector3.Distance(handPos, objectPos);
-        float scoreMult = (float)maxCatchDistance - distance;
+        float distance = (float)UnityEngine.Vector3.Distance(handPos, objectPos);
+        float scoreMult = (float)Math.Abs(maxCatchDistance - distance);
 
         // if input is wrong subtract score instead of adding
         if( wrongInput )
         {
-            scoreMult *= -1;
+            Debug.Log("\t\tScore Mult: " + scoreMult);
+            scoreMult = -scoreMult;
         }
 
         // update score based on distance
-        JustJugglingMain.OBJ_HIT(Math.Abs(scoreMult));
+        JustJugglingMain.OBJ_HIT(scoreMult);
     }
 
     // End game

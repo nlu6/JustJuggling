@@ -114,24 +114,18 @@ public class JugglingObject : MonoBehaviour
         float objectHeight = jugglingObject.transform.position.y*dpi;
         float objectX = jugglingObject.transform.position.x;
 
-        if( objectX >= destinationX )
+        if( Math.Abs(objectX) >= Math.Abs(destinationX/dpi) )
         {
-            xStep = -xStep;
+            xStep = 0;
         }
         if( objectHeight >= maxHeight )
         {
             yStep = -yStep;
             downwardTrajectory = true;
         }
-
-        // preventative measure to stop objects from gradually drifting sideways
-        if( Math.Abs(objectX - destinationX) < 0.1 * xDeviation * dpi )
-        {
-            xStep = 0;
-        }
         
         // cheat mode for debugging, freezes object near hand
-        if( cheatMode && downwardTrajectory && (Math.Abs(objectHeight - interceptHeight) < 0.1 
+        if( cheatMode && downwardTrajectory && (Math.Abs(objectHeight - interceptHeight) < 0.1 * dpi
                         || objectHeight < interceptHeight ) )
         {
             jugglingObject.transform.position = new Vector3(objectX, (float)interceptHeight/dpi, -1);
@@ -147,7 +141,7 @@ public class JugglingObject : MonoBehaviour
             proximitySensor.useGravity = false;
         }
 
-        if( cheatMode && downwardTrajectory && Math.Abs(objectX - destinationX) < 0.1 )
+        if( cheatMode && downwardTrajectory && Math.Abs(objectX - destinationX) < 0.1 * dpi )
         {
             xStep = 0;
 
@@ -222,7 +216,7 @@ public class JugglingObject : MonoBehaviour
         destinationX = (destinationHand + UnityEngine.Random.Range(-(float)xDeviation, (float)xDeviation)) * dpi; // convert to pixels
 
         // save step size
-        xStep = Math.Abs(destinationX - currentPos) / framesUntilIntercept;
+        xStep = destinationX - currentPos / framesUntilIntercept;
 
         // slow down time
         xStep /= slowFactor;
@@ -317,6 +311,6 @@ public class JugglingObject : MonoBehaviour
 
     public int VerifyTiming()
     {
-        
+        return 0; // stub return
     }
 }

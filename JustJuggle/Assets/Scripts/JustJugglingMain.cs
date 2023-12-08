@@ -60,14 +60,22 @@ public class JustJugglingMain : MonoBehaviour
     // check HandleCatch.UpdateScore for muliplier calculations
     static public void OBJ_HIT( float scoreMult )
     {
-        Script.playerScore += (int)(Script.scoreAdd * (1 + scoreMult));
-        Script.uitScore.text = "Score: " + Script.playerScore;
-        
-        if (scoreMult > 0)
+
+        if( scoreMult >= 0 )
         {
+            Script.playerScore += (int)(Script.scoreAdd * (1 + scoreMult));
             Script.objJuggled++;
             Script.uitJuggleCount.text = "Objects Juggled: " + Script.objJuggled;
+         
         }
+        // subtractive scoring for failed inputs
+        else
+        {
+            Debug.Log("Score Mult: " + scoreMult);
+            Script.playerScore += (int)(Script.scoreAdd * scoreMult);
+        }
+
+        Script.uitScore.text = "Score: " + Script.playerScore;
     }
     
     static public void GAME_END()
